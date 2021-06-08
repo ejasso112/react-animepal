@@ -1,0 +1,17 @@
+.logo {
+  &__anime,
+  &__pal {
+    stroke-linecap: round;
+    stroke-linejoin: round;
+  }
+
+  &__anime {
+    fill: #ececec;
+    stroke: #ececec;
+  }
+
+  &__pal {
+    fill: #860acc;
+    stroke: #860acc;
+  }
+}

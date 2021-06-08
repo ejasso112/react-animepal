@@ -1,0 +1,67 @@
+.nav {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 4%;
+
+  // Nav Logo
+  &__logo {
+    svg {
+      height: 24px;
+    }
+  }
+
+  // Nav Primary
+  &__primary {
+    display: flex;
+  }
+
+  &__tag {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 0 6px;
+
+    a {
+      padding: 16px 24px;
+      color: var(--color-font-primary);
+      font-size: 16px;
+      font-weight: 500;
+      border-bottom: 2px solid transparent;
+    }
+
+    &--active {
+      a {
+        border-bottom: 2px solid var(--color-highlight);
+      }
+    }
+  }
+
+  // Nav Secondary
+  &__searchBox {
+    display: flex;
+    align-items: center;
+    background: var(--color-highlight);
+    border-radius: 4px;
+
+    svg {
+      margin-left: 8px;
+      fill: #fff;
+    }
+
+    input {
+      border: 0;
+      background: none;
+      width: 200px;
+      padding: 10px 8px;
+      color: #fff;
+
+      &::placeholder {
+        color: #fff;
+      }
+      &:focus {
+        outline: none;
+      }
+    }
+  }
+}
