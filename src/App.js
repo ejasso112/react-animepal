@@ -2,7 +2,7 @@ import { BrowserRouter as Router, Switch, Route } from 'react-router-dom'
 import Nav from './components/Nav/Nav'
 import Home from './containers/Home/Home'
 
-import './App.scss'
+import FetchedListsProvider from './context/FetchedListsProvider'
 
 function App() {
   return (
@@ -10,7 +10,9 @@ function App() {
       <Nav />
       <Switch>
         <Route>
-          <Home />
+          <FetchedListsProvider>
+            <Home />
+          </FetchedListsProvider>
         </Route>
       </Switch>
     </Router>
