@@ -3,7 +3,7 @@ import { useContext, useEffect } from 'react'
 // Import Contexts
 import FetchedListsContext from '../../context/FetchedListsContext'
 // Import Custom Components
-import HeaderHome from '../../components/Banner/Banner'
+import Banner from '../../components/Banner/Banner'
 // Import API Fetch
 import fetchFeatured from '../../API/fetchFeatured'
 // Import Helpers
@@ -50,7 +50,7 @@ const Home = () => {
 
   return (
     <main>
-      <HeaderHome {...featuredAnimeProps} />
+      <Banner {...featuredAnimeProps} />
     </main>
   )
 }

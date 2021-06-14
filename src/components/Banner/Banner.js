@@ -6,26 +6,26 @@ import { getParsedHTML } from '../../services/utilities'
 // Import Styles
 import componentStyles from './Banner.module.scss'
 import sharedStyles from '../SharedStyles.module.scss'
-
+// Combined Styles
 const styles = { ...sharedStyles, ...componentStyles }
 
 //* Banner Component
-const Banner = (props) => {
-  /* props = {
-    type: string - anime/manga
-    sort: string - trending_desc/popular_desc/...,
-    title: string - Title of Banner,
-    year: int - YYYY,
-    season: string - spring/summer/fall/winter,
-    data: array - Page of Banner Data,
-    currPage: int - Active page,
-    totalPages: int - Number of pages,
-    setCurrPage: function(newCurrPage) - Changes currPage to newCurrPage,
-    interval: int - Duration per item in ms,
-  } */
+const Banner = (
+  props = {
+    type: '', // --------------- anime/manga
+    sort: '', // --------------- trending_desc/popular_desc/...
+    title: '', // -------------- title of Banner
+    year: NaN, // -------------- yyyy
+    season: '', // ------------- spring/summer/fall/winter
+    data: [], // --------------- page of Banner Data
+    currPage: NaN, // ---------- active page
+    totalPages: NaN, // -------- number of pages
+    setCurrPage: () => {}, //--- changes currPage to newCurrPage
+    interval: NaN, // ---------- duration per item in ms
+  }
+) => {
+  // Destructuring Props
   const { type, sort, title, year, season, data, currPage, totalPages, setCurrPage, interval } = props
-  const totalPagesArr = [...Array(totalPages).keys()]
-  const currItemData = data[currPage - 1]
 
   // Interval Handler for render time per item in list
   useEffect(() => {
@@ -36,17 +36,24 @@ const Banner = (props) => {
     return () => clearInterval(intervalHandler)
   }, [interval, currPage, totalPages, setCurrPage])
 
-  // Render: Loading Banner
+  // TODO Render: Loading Banner
   if (data.length === 0) {
     return <div>Is Loading</div>
   }
 
+  // Creating Button Map for Banner Buttons
+  const totalPagesArr = [...Array(totalPages).keys()]
   const buttonsMap = totalPagesArr.map((item, i) => {
     const isActive = i + 1 === currPage ? styles['carousell__button--active'] : ''
     return <div className={`${styles['carousell__button']} ${isActive}`} key={i} onClick={() => setCurrPage(i + 1)}></div>
   })
 
+  // Creating varible with current page data from the data array
+  const currItemData = data[currPage - 1]
+
+  // Getting Anime title that is not undefined
   const animeTitle = currItemData.title?.english ? currItemData.title?.english : currItemData.title?.romaji ? currItemData.title?.romaji : currItemData.title?.native
+  // Getting Banner img that is not undefined
   const bannerImg = currItemData?.bannerImage ? currItemData?.bannerImage : currItemData?.coverImage.extraLarge
 
   // Render: Loaded Banner
