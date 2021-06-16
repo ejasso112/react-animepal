@@ -44,8 +44,8 @@ const Banner = (
   // Creating Button Map for Banner Buttons
   const totalPagesArr = [...Array(totalPages).keys()]
   const buttonsMap = totalPagesArr.map((item, i) => {
-    const isActive = i + 1 === currPage ? styles['carousel__button--active'] : ''
-    return <div className={`${styles['carousel__button']} ${isActive}`} key={i} onClick={() => setCurrPage(i + 1)}></div>
+    const isActive = i + 1 === currPage ? styles['shared__carousel__button--active'] : ''
+    return <div className={`${styles['shared__carousel__button']} ${isActive}`} key={i} onClick={() => setCurrPage(i + 1)}></div>
   })
 
   // Creating varible with current page data from the data array
@@ -66,7 +66,7 @@ const Banner = (
         </div>
 
         <div className={styles['banner__content']}>
-          <h2 className={`${styles['banner__content__heading']} ${styles['carousel__viewMore']}`}>
+          <h2 className={`${styles['banner__content__heading']} ${styles['shared__carousel__viewMore']}`}>
             <Link to={{ pathname: '/search', search: `?type=${type}&year=${year}&season=${season}&sort=${sort}` }}>
               {title}
               <span>View More</span>
@@ -80,7 +80,7 @@ const Banner = (
         </div>
       </div>
 
-      <div className={`${styles['banner__buttons']} ${styles['carousel__buttons']}`}>{buttonsMap}</div>
+      <div className={`${styles['banner__buttons']} ${styles['shared__carousel__buttons']}`}>{buttonsMap}</div>
     </div>
   )
 }
