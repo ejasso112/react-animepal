@@ -6,7 +6,7 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 0 4%;
+  padding: var(--margin-container);
   background-color: rgba($color: #0c0c0c, $alpha: 0.7);
 
   // Nav Logo
@@ -29,7 +29,7 @@
 
     a {
       padding: 24px 24px;
-      color: var(--color-font-primary);
+      color: var(--color-text-primary);
       font-size: 16px;
       font-weight: 500;
       border-bottom: 3px solid transparent;

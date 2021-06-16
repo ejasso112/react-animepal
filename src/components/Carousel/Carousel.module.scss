@@ -1,0 +1,75 @@
+.carousel {
+  padding: var(--margin-container);
+  margin-bottom: 1em;
+
+  &__container {
+    overflow: hidden;
+    margin-bottom: 4em;
+  }
+
+  &__heading {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+
+    &__title {
+      margin-bottom: 0.5em;
+      font-weight: 600;
+      font-size: 2rem;
+      color: var(--color-text-secondary);
+    }
+  }
+
+  &__items {
+    position: relative;
+    display: flex;
+    transform: translateX(-100%);
+  }
+
+  &__prev,
+  &__next {
+    cursor: pointer;
+    z-index: 1;
+    display: flex;
+    position: absolute;
+    top: 0;
+    justify-content: center;
+    align-items: center;
+    width: calc(var(--width-offset) + 0.05%);
+    // subtract height of AnimeCardTitle and bottom img margin
+    height: calc(100% - 2.625em - 0.5em);
+    border-radius: 0.25em;
+    background-color: var(--color-bg-primary-60);
+
+    & > svg {
+      transition: transform 100ms ease-in;
+      fill: none;
+    }
+
+    &:hover,
+    &:focus {
+      background-color: var(--color-bg-primary-80);
+      > svg {
+        transform: scale(1.5);
+      }
+    }
+  }
+
+  &__prev {
+    left: calc(99.8% - var(--width-offset));
+  }
+
+  &__next {
+    right: calc(-100.2% - var(--width-offset));
+  }
+
+  &:hover,
+  &:focus-within {
+    .carousel__prev,
+    .carousel__next {
+      > svg {
+        fill: var(--color-text-tertiary);
+      }
+    }
+  }
+}

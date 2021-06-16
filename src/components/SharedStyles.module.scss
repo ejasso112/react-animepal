@@ -1,4 +1,4 @@
-.carousell {
+.carousel {
   &__viewMore {
     & span {
       display: inline-block;
@@ -21,7 +21,6 @@
 
   &__buttons {
     display: flex;
-    margin: var(--margin-container);
     margin-top: 0.25rem;
   }
 
@@ -32,7 +31,7 @@
     cursor: pointer;
     background-color: var(--color-bg-secondary);
 
-    & + .carousell__button {
+    & + .carousel__button {
       margin-left: 0.25em;
     }
 

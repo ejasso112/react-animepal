@@ -3,6 +3,7 @@
 
   &__container {
     margin: 0 auto;
+    margin-bottom: 2.5em;
   }
 
   &__bg {
@@ -91,5 +92,9 @@
         background-color: var(--color-highlight-over);
       }
     }
+  }
+
+  &__buttons {
+    margin: var(--margin-container);
   }
 }
