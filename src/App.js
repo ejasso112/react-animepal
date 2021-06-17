@@ -1,6 +1,7 @@
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom'
 import Nav from './components/Nav/Nav'
 import Home from './containers/Home/Home'
+import Anime from './containers/Anime/Anime'
 
 import FetchedListsProvider from './context/FetchedListsProvider'
 
@@ -9,11 +10,14 @@ function App() {
     <Router>
       <Nav />
       <Switch>
-        <Route>
-          <FetchedListsProvider>
+        <FetchedListsProvider>
+          <Route path='/anime'>
+            <Anime />
+          </Route>
+          <Route path={('/', '/home')}>
             <Home />
-          </FetchedListsProvider>
-        </Route>
+          </Route>
+        </FetchedListsProvider>
       </Switch>
     </Router>
   )

@@ -14,15 +14,25 @@ const FetchedListsContext = createContext({
   setTrendingAnime: (list) => {},
   setTrendingAnimePage: (page) => {},
 
-  trendingManga: [],
-  trendingMangaPage: 1,
-  setTrendingManga: (list) => {},
-  setTrendingMangaPage: (page) => {},
+  popularAnime: [],
+  popularAnimePage: 1,
+  setPopularAnime: (list) => {},
+  setPopularAnimePage: (page) => {},
+
+  upcomingAnime: [],
+  upcomingAnimePage: 1,
+  setUpcomingAnime: (list) => {},
+  setUpcomingAnimePage: (page) => {},
 
   topAnime: [],
   topAnimePage: 1,
   setTopAnime: (list) => {},
   setTopAnimePage: (page) => {},
+
+  trendingManga: [],
+  trendingMangaPage: 1,
+  setTrendingManga: (list) => {},
+  setTrendingMangaPage: (page) => {},
 
   topManga: [],
   topMangaPage: 1,
