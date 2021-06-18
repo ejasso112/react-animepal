@@ -1,13 +1,13 @@
 // Import React Dependencies
 import { useContext, useEffect, useRef } from 'react'
 // Import Contexts
-import FetchedListsContext from '../../context/FetchedListsContext'
+import FetchedListsContext from '../context/FetchedListsContext'
 // Import Custom Components
-import Carousel from '../../components/Carousel/Carousel'
+import Carousel from '../components/Carousel/Carousel'
 // Import API Fetch
-import fetchAnimePage from '../../API/fetchAnimePage'
+import fetchAnimePage from '../API/fetchAnimePage'
 // Import Helpers
-import { getYear, getSeason, getNextSeason } from '../../services/utilities'
+import { getYear, getSeason, getNextSeason } from '../services/utilities'
 
 //* Anime Component
 const Anime = () => {

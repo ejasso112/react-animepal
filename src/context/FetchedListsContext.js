@@ -34,6 +34,16 @@ const FetchedListsContext = createContext({
   setTrendingManga: (list) => {},
   setTrendingMangaPage: (page) => {},
 
+  popularManga: [],
+  popularMangaPage: 1,
+  setPopularManga: (list) => {},
+  setPopularMangaPage: (page) => {},
+
+  upcomingManga: [],
+  upcomingMangaPage: 1,
+  setUpcomingManga: (list) => {},
+  setUpcomingMangaPage: (page) => {},
+
   topManga: [],
   topMangaPage: 1,
   setTopManga: (list) => {},

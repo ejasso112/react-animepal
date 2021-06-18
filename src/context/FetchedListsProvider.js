@@ -17,6 +17,10 @@ const FetchedListsProvider = (props) => {
 
   const [trendingManga, setTrendingManga] = useState([])
   const [trendingMangaPage, setTrendingMangaPage] = useState(1)
+  const [popularManga, setPopularManga] = useState([])
+  const [popularMangaPage, setPopularMangaPage] = useState(1)
+  const [upcomingManga, setUpcomingManga] = useState([])
+  const [upcomingMangaPage, setUpcomingMangaPage] = useState(1)
   const [topManga, setTopManga] = useState([])
   const [topMangaPage, setTopMangaPage] = useState(1)
 
@@ -53,6 +57,16 @@ const FetchedListsProvider = (props) => {
     trendingMangaPage: trendingMangaPage,
     setTrendingManga: setTrendingManga,
     setTrendingMangaPage: setTrendingMangaPage,
+
+    popularManga: popularManga,
+    popularMangaPage: popularMangaPage,
+    setPopularManga: setPopularManga,
+    setPopularMangaPage: setPopularMangaPage,
+
+    upcomingManga: upcomingManga,
+    upcomingMangaPage: upcomingMangaPage,
+    setUpcomingManga: setUpcomingManga,
+    setUpcomingMangaPage: setUpcomingMangaPage,
 
     topManga: topManga,
     topMangaPage: topMangaPage,
