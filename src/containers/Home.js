@@ -9,7 +9,7 @@ import Carousel from '../components/Carousel/Carousel'
 import fetchFeatured from '../API/fetchFeatured'
 import fetchAnimePage from '../API/fetchAnimePage'
 // Import Helpers
-import { getYear, getSeason } from '../services/utilities'
+import { getCurrYear, getCurrSeason } from '../services/utilities'
 
 const Home = () => {
   // Getting Context for Fetched Anime Lists
@@ -28,8 +28,8 @@ const Home = () => {
   const { topManga, topMangaPage, setTopManga, setTopMangaPage } = fetchedListsContext
 
   const targetRef = useRef()
-  const currYear = getYear()
-  const currSeason = getSeason()
+  const currYear = getCurrYear()
+  const currSeason = getCurrSeason()
 
   // Resize Handler for Calculating Carousel Items Per Page
   useEffect(() => {

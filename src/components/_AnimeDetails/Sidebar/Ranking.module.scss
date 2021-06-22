@@ -1,0 +1,36 @@
+.ranking {
+  display: flex;
+  align-items: center;
+  padding: 0.75rem 0.875rem;
+  background-color: var(--color-bg-secondary);
+  margin-bottom: 0.75em;
+  border-radius: 0.25em;
+
+  &__svg {
+    height: 0.8rem;
+    margin-right: 1em;
+
+    &--star {
+      fill: rgba(var(--color-star), 1);
+    }
+
+    &--heart {
+      fill: rgba(var(--color-heart), 1);
+    }
+  }
+
+  &__content {
+    color: rgb(189, 189, 189);
+    font-size: 0.8rem;
+    font-weight: 500;
+    letter-spacing: 0.0325rem;
+  }
+
+  &--link {
+    &:hover {
+      .ranking__content {
+        color: #3db4f2;
+      }
+    }
+  }
+}

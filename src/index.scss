@@ -17,6 +17,8 @@
   --width-offset: 2.5%;
 
   --color-shadow-dark: 24, 6, 35;
+  --color-star: 247, 191, 99;
+  --color-heart: 232, 93, 117;
 }
 
 * {
@@ -72,32 +74,32 @@ p {
   //   letter-spacing: 0.5px;
 }
 
-@media only screen and (min-width: 1600px) {
-  html {
-    font-size: 62.5%;
-  }
-}
+// @media only screen and (min-width: 1600px) {
+//   html {
+//     font-size: 62.5%;
+//   }
+// }
 
-@media only screen and (min-width: 1920px) {
-  html {
-    font-size: 75%;
-  }
-}
+// @media only screen and (min-width: 1920px) {
+//   html {
+//     font-size: 75%;
+//   }
+// }
 
-@media only screen and (min-width: 2048px) {
-  html {
-    font-size: 80%;
-  }
-}
+// @media only screen and (min-width: 2048px) {
+//   html {
+//     font-size: 80%;
+//   }
+// }
 
-@media only screen and (min-width: 2560px) {
-  html {
-    font-size: 100%;
-  }
-}
+// @media only screen and (min-width: 2560px) {
+//   html {
+//     font-size: 100%;
+//   }
+// }
 
-@media only screen and (min-width: 3840px) {
-  html {
-    font-size: 150%;
-  }
-}
+// @media only screen and (min-width: 3840px) {
+//   html {
+//     font-size: 150%;
+//   }
+// }

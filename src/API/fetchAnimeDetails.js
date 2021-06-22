@@ -2,6 +2,8 @@ const fetchAnimeDetails = async (params) => {
   const query = `
     query ($id: Int) {
       Media(id: $id) {
+        
+        # Basic Data
         id
         idMal
         bannerImage
@@ -18,6 +20,55 @@ const fetchAnimeDetails = async (params) => {
           userPreferred
         }
         description
+
+        # Rankings Data
+        averageScore
+        rankings {
+          id
+          rank
+          type
+          format
+          year
+          season
+          allTime
+          context
+          rank
+        }
+        popularity
+
+        # Sidebar Data
+        nextAiringEpisode {
+          episode
+          timeUntilAiring
+        }
+        format
+        episodes
+        duration
+        status
+        startDate {
+          year
+          month
+          day
+        }
+        endDate {
+          year
+          month
+          day
+        }
+        season
+        seasonYear
+        studios {
+          edges {
+            isMain
+          }
+          nodes {
+            id
+            name
+          }
+        }
+        source
+        genres
+        synonyms
       }
     }`
 

@@ -7,7 +7,7 @@ import Carousel from '../components/Carousel/Carousel'
 // Import API Fetch
 import fetchAnimePage from '../API/fetchAnimePage'
 // Import Helpers
-import { getYear, getSeason, getNextSeason } from '../services/utilities'
+import { getCurrYear, getCurrSeason, getNextSeason } from '../services/utilities'
 
 //* Anime Component
 const Anime = () => {
@@ -25,8 +25,8 @@ const Anime = () => {
   const { topAnime, topAnimePage, setTopAnime, setTopAnimePage } = fetchedListsContext
 
   const targetRef = useRef()
-  const currYear = getYear()
-  const currSeason = getSeason()
+  const currYear = getCurrYear()
+  const currSeason = getCurrSeason()
   const nextSeason = getNextSeason()
 
   // Resize Handler for Calculating Carousel Items Per Page

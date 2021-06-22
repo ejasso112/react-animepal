@@ -15,24 +15,11 @@ const Banner = (
 ) => {
   // Deconstructing Props
   const { id, bannerImage, coverImage, title, description } = props
-  const stats = [
-    { stat: 'Score', rank: '84%' },
-    { stat: 'Ranked', rank: '#321' },
-    { stat: 'Popularity', rank: '#543' },
-    { stat: 'Members', rank: '342,234' },
-  ]
 
   // TODO Render: Loading Banner
   if (id === undefined) {
     return <div>Loading</div>
   }
-
-  const statsMap = stats.map((stat) => (
-    <div className={styles['stats__stat']} key={stat.stat}>
-      <span className={styles['stats__name']}>{stat.stat}:</span>
-      <span className={styles['stats__rank']}>{stat.rank}</span>
-    </div>
-  ))
 
   return (
     <div className={styles['banner__container']}>
@@ -45,7 +32,6 @@ const Banner = (
           <img className={styles['banner__coverImage']} src={coverImage.extraLarge} alt={title.userPreferred} />
           <h1 className={styles['banner__title']}>{title.userPreferred}</h1>
           <p className={styles['banner__description']} dangerouslySetInnerHTML={{ __html: description }} />
-          {/* <div className={styles['stats']}>{statsMap}</div> */}
         </div>
       </div>
     </div>
