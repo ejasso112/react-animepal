@@ -56,8 +56,8 @@ const Home = () => {
         perPage: 5,
         type: 'ANIME',
         sort: 'POPULARITY_DESC',
-        season: currSeason,
         seasonYear: currYear,
+        season: currSeason,
       }
 
       fetchFeatured(paramsFeaturedAnime).then((data) => {

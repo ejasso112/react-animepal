@@ -1,8 +1,8 @@
 const fetchFeatured = async (params) => {
   const query = `
-    query ($page: Int, $perPage: Int, $status: MediaStatus, $season: MediaSeason, $seasonYear: Int, $type: MediaType, $sort: [MediaSort], $search: String) {
+    query ($page: Int, $perPage: Int, $status: MediaStatus, $format: MediaFormat, $season: MediaSeason, $seasonYear: Int, $type: MediaType, $sort: [MediaSort], $search: String) {
       Page(page: $page, perPage: $perPage) {
-        media(status: $status, season: $season, seasonYear: $seasonYear, type: $type, sort: $sort, genre_not_in: "Hentai", search: $search) {
+        media(status: $status, season: $season, seasonYear: $seasonYear, type: $type, format: $format,sort: $sort, genre_not_in: "Hentai", search: $search) {
           id
           title {
             romaji
@@ -24,6 +24,7 @@ const fetchFeatured = async (params) => {
     page: params.page,
     perPage: params.perPage,
     status: params.status,
+    format: params.format,
     season: params.season,
     seasonYear: params.seasonYear,
     type: params.type,

@@ -5,6 +5,7 @@ import FetchedAnimeDetailsContext from '../context/FetchedAnimeDetailsContext'
 // Import Custom Components
 import Banner from '../components/_AnimeDetails/Banner/Banner'
 import Sidebar from '../components/_AnimeDetails/Sidebar/Sidebar'
+import Overview from '../components/_AnimeDetails/SubContainers/Overview'
 // Import API Fetch
 import fetchAnimeDetails from '../API/fetchAnimeDetails'
 
@@ -41,7 +42,7 @@ const AnimeDetails = (props) => {
     description: animeDetails?.description,
   }
 
-  //Create Props Object for Sidebar
+  // Create Props Object for Sidebar
   const sidebarProps = {
     id: animeDetails?.id,
 
@@ -64,11 +65,17 @@ const AnimeDetails = (props) => {
     genres: animeDetails?.genres,
     synonyms: animeDetails?.synonyms,
   }
+
+  // Create Props Object for Overview
+  const overviewProps = {
+    trailer: animeDetails?.trailer,
+  }
   return (
     <main>
       <Banner {...bannerProps} />
-      <div style={{ margin: '0 16%' }}>
+      <div style={{ margin: '0 16%', display: 'grid', gridTemplateColumns: 'min-content 1fr', gridTemplateRows: 'auto' }}>
         <Sidebar {...sidebarProps} />
+        <Overview {...overviewProps} />
       </div>
     </main>
   )

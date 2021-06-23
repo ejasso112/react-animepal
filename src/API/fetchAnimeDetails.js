@@ -69,6 +69,11 @@ const fetchAnimeDetails = async (params) => {
         source
         genres
         synonyms
+
+        trailer {
+          id
+          site
+        }
       }
     }`
 
