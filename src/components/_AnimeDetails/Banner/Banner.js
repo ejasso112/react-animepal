@@ -1,8 +1,5 @@
 // Import Styles
-import componentStyles from './Banner.module.scss'
-import sharedStyles from '../../SharedStyles.module.scss'
-// Combined Styles
-const styles = { ...sharedStyles, ...componentStyles }
+import styles from './Banner.module.scss'
 
 const Banner = (
   props = {
@@ -30,7 +27,7 @@ const Banner = (
       <div className={styles['banner']}>
         <div className={styles['banner__content']}>
           <img className={styles['banner__coverImage']} src={coverImage.extraLarge} alt={title.userPreferred} />
-          <h1 className={styles['banner__title']}>{title.userPreferred}</h1>
+          <h3 className={styles['banner__title']}>{title.userPreferred}</h3>
           <p className={styles['banner__description']} dangerouslySetInnerHTML={{ __html: description }} />
         </div>
       </div>

@@ -1,0 +1,21 @@
+.buttons {
+  display: flex;
+  flex-shrink: 0;
+  flex-grow: 0;
+}
+
+.button {
+  width: 0.7rem;
+  height: 0.7rem;
+  border-radius: 50%;
+  cursor: pointer;
+  background-color: #{'rgb(var(--color-bg-tertiary))'};
+
+  & + & {
+    margin-left: 0.25rem;
+  }
+
+  &--active {
+    background-color: #{'rgb(var(--color-highlight))'};
+  }
+}

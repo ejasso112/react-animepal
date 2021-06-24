@@ -1,0 +1,19 @@
+.container {
+  &:hover,
+  &:focus-within {
+    & .message {
+      opacity: 1;
+      transition: opacity 500ms ease-in-out, transform 500ms ease-in-out;
+      transform: translateX(0);
+    }
+  }
+}
+
+.message {
+  display: inline-block;
+  opacity: 0;
+  padding-left: 0.5rem;
+  font-weight: 500;
+  font-size: 1rem;
+  transform: translateX(-1em);
+}

@@ -1,0 +1,98 @@
+.container {
+  margin-bottom: 2.5rem;
+}
+
+.banner {
+  position: relative;
+}
+
+.background {
+  position: relative;
+
+  &__img {
+    display: block;
+    width: 100%;
+    height: 44rem;
+    object-fit: cover;
+  }
+
+  &__overlay {
+    display: block;
+    position: absolute;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background: #{'rgb(var(--color-bg-primary))'};
+    background: radial-gradient(farthest-corner at bottom left, #{'rgba(var(--color-bg-primary), 1)'} 0%, #{'rgba(var(--color-bg-primary), .8)'} 35%, #{'rgba(var(--color-bg-primary), 0)'} 100%);
+
+    &::after {
+      display: block;
+      position: absolute;
+      bottom: 0;
+      width: 100%;
+      height: 18rem;
+      content: '';
+      background: #{'rgb(var(--color-bg-primary))'};
+      background: linear-gradient(to bottom, #{'rgba(var(--color-bg-primary), 0)'} 0%, #{'rgba(var(--color-bg-primary), 1)'} 96%);
+    }
+  }
+}
+
+.content {
+  position: absolute;
+  bottom: 0;
+  margin: var(--margin-container);
+  padding-bottom: 4rem;
+
+  &__heading {
+    margin: 0;
+    font-weight: 700;
+  }
+
+  &__title {
+    display: -webkit-box;
+    width: 36ch;
+    overflow: hidden;
+    color: #{'rgb(var(--color-text-primary))'};
+    font-weight: 800;
+    font-size: 3rem;
+    letter-spacing: 0.04rem;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 1;
+  }
+
+  &__description {
+    display: -moz-box;
+    display: -webkit-box;
+    max-width: 60ch;
+    margin-bottom: 2.5rem;
+    overflow: hidden;
+    font-size: 1.25rem;
+    line-height: 1.75rem;
+    -moz-box-orient: vertical;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
+  }
+
+  &__link {
+    display: inline-block;
+    padding: 0.5rem 1.5rem;
+    border-radius: 0.25rem;
+    color: #{'rgb(var(--color-text-secondary))'};
+    font-weight: 500;
+    font-size: 1.125rem;
+    letter-spacing: 0.0325rem;
+    background-color: #{'rgb(var(--color-highlight))'};
+    transition: 200ms ease-in-out;
+
+    &:hover,
+    &:focus-within {
+      color: #{'rgb(var(--color-text-primary))'};
+      background-color: #{'rgb(var(--color-highlight-over))'};
+    }
+  }
+}
+
+.buttons {
+  margin: var(--margin-container);
+}

@@ -1,0 +1,45 @@
+.container {
+  position: relative;
+}
+
+.prev,
+.next {
+  display: flex;
+  z-index: 1;
+  position: absolute;
+  top: 0;
+  justify-content: center;
+  align-items: center;
+  width: calc(var(--width-offset) - 0.75rem);
+  // subtract height and top margin of AnimeCard title
+  height: calc(100% - 2.625rem - 0.3rem);
+  cursor: pointer;
+  background-color: #{'rgb(var(--color-bg-primary), .6)'};
+
+  > svg {
+    transition: 100ms ease-in;
+    fill: #{'rgb(var(--color-text-secondary))'};
+  }
+
+  &:hover,
+  &:focus {
+    background-color: #{'rgb(var(--color-bg-primary), .8)'};
+
+    > svg {
+      transform: scale(1.5);
+      fill: #{'rgb(var(--color-text-primary))'};
+    }
+  }
+}
+
+.prev {
+  left: 0;
+}
+
+.next {
+  right: 0;
+}
+
+.freeze {
+  pointer-events: none;
+}

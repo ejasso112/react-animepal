@@ -1,6 +1,6 @@
 .banner {
   position: relative;
-  background-color: var(--color-bg-secondary);
+  background-color: #{'rgb(var(--color-bg-secondary))'};
 
   &__image {
     display: block;
@@ -45,7 +45,6 @@
 
   &__title {
     grid-area: title;
-    color: var(--color-text-primary);
     padding-bottom: 1em;
   }
 

@@ -1,0 +1,59 @@
+.container {
+  flex-grow: 0;
+  flex-shrink: 0;
+}
+
+@for $i from 1 through 10 {
+  .items--#{$i} {
+    width: calc(100% / #{$i});
+  }
+}
+
+.card {
+  display: grid;
+  margin: 0 0.75rem;
+  cursor: pointer;
+  transition: transform 250ms ease-out;
+  grid-template-rows: min-content auto;
+
+  &:hover,
+  &:focus {
+    transform: scale(1.03);
+  }
+}
+
+.img {
+  position: relative;
+  width: 100%;
+  border-radius: 0.25rem;
+  overflow: hidden;
+  box-shadow: 0 0 1.5rem #{'rgba(var(--color-shadow-dark), .75)'};
+
+  &:before {
+    display: block;
+    padding-top: 53 / 37 * 100%;
+    content: '';
+  }
+
+  &__content {
+    position: absolute;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+}
+
+.title {
+  margin-top: 0.325rem;
+  display: -webkit-box;
+  max-width: 80%;
+  height: 2.625rem;
+  overflow: hidden;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+}
+
+.inactive {
+  pointer-events: none;
+}

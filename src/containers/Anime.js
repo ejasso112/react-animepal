@@ -3,7 +3,7 @@ import { useContext, useEffect, useRef } from 'react'
 // Import Contexts
 import FetchedListsContext from '../context/FetchedListsContext'
 // Import Custom Components
-import Carousel from '../components/Carousel/Carousel'
+import CarouselSlider from '../components/Carousels/_CarouselSlider'
 // Import API Fetch
 import fetchAnimePage from '../API/fetchAnimePage'
 // Import Helpers
@@ -34,9 +34,8 @@ const Anime = () => {
     const resizeHandler = () => {
       if (targetRef.current) {
         const itemWidth = 256
-        const itemGap = 8
 
-        const totalItems = Math.floor(targetRef.current.offsetWidth / (itemWidth + itemGap))
+        const totalItems = Math.floor(targetRef.current.offsetWidth / itemWidth)
         totalItems !== perPage && totalItems <= 10 && setPerPage(totalItems)
       }
     }
@@ -164,10 +163,10 @@ const Anime = () => {
 
   return (
     <main ref={targetRef} style={{ paddingTop: '6em' }}>
-      <Carousel {...trendingAnimeProps} />
-      <Carousel {...popularThisSeasonAnimeProps} />
-      <Carousel {...topUpcomingAnimeProps} />
-      <Carousel {...allTimePopularAnimeProps} />
+      <CarouselSlider {...trendingAnimeProps} />
+      <CarouselSlider {...popularThisSeasonAnimeProps} />
+      <CarouselSlider {...topUpcomingAnimeProps} />
+      <CarouselSlider {...allTimePopularAnimeProps} />
     </main>
   )
 }

@@ -3,8 +3,8 @@ import { useContext, useEffect, useRef } from 'react'
 // Import Contexts
 import FetchedListsContext from '../context/FetchedListsContext'
 // Import Custom Components
-import Banner from '../components/Banner/Banner'
-import Carousel from '../components/Carousel/Carousel'
+import CarouselBanner from '../components/Carousels/_CarouselBanner'
+import CarouselSlider from '../components/Carousels/_CarouselSlider'
 // Import API Fetch
 import fetchFeatured from '../API/fetchFeatured'
 import fetchAnimePage from '../API/fetchAnimePage'
@@ -36,10 +36,11 @@ const Home = () => {
     const resizeHandler = () => {
       if (targetRef.current) {
         const itemWidth = 256
-        const itemGap = 8
 
-        const totalItems = Math.floor(targetRef.current.offsetWidth / (itemWidth + itemGap))
-        totalItems !== perPage && totalItems <= 10 && setPerPage(totalItems)
+        const totalItems = Math.floor(targetRef.current.offsetWidth / itemWidth)
+        const itemsToDisplay = totalItems > 10 ? 10 : totalItems
+
+        itemsToDisplay !== perPage && itemsToDisplay > 0 && setPerPage(itemsToDisplay)
       }
     }
     resizeHandler()
@@ -134,7 +135,7 @@ const Home = () => {
   const featuredAnimeProps = {
     type: 'ANIME',
     sort: 'POPULARITY_DESC',
-    title: `${currSeason} ${currYear}`,
+    heading: `${currSeason} ${currYear}`,
     year: currYear,
     season: currSeason,
     data: featuredAnime,
@@ -194,11 +195,11 @@ const Home = () => {
 
   return (
     <main ref={targetRef}>
-      <Banner {...featuredAnimeProps} />
-      <Carousel {...trendingAnimeProps} />
-      <Carousel {...trendingMangaProps} />
-      <Carousel {...allTimePopularAnimeProps} />
-      <Carousel {...allTimePopularMangaProps} />
+      <CarouselBanner {...featuredAnimeProps} />
+      <CarouselSlider {...trendingAnimeProps} />
+      <CarouselSlider {...trendingMangaProps} />
+      <CarouselSlider {...allTimePopularAnimeProps} />
+      <CarouselSlider {...allTimePopularMangaProps} />
     </main>
   )
 }
