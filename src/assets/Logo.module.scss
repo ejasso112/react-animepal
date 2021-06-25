@@ -6,12 +6,12 @@
   }
 
   &__anime {
-    fill: #ececec;
-    stroke: #ececec;
+    fill: #{'rgb(var(--color-text-primary))'};
+    stroke: #{'rgb(var(--color-text-primary))'};
   }
 
   &__pal {
-    fill: #860acc;
-    stroke: #860acc;
+    fill: #{'rgb(var(--color-highlight))'};
+    stroke: #{'rgb(var(--color-highlight))'};
   }
 }

@@ -1,7 +1,7 @@
 // Import Custom Components
 import CardTrailer from '../Cards/CardTrailer'
 // Import Styles
-import styles from './Section.module.scss'
+import classes from './Section.module.scss'
 
 //* Trailer Section Component
 const SectionTrailer = (
@@ -11,7 +11,7 @@ const SectionTrailer = (
   }
 ) => {
   // Deconstructing Props
-  const { id, site } = props
+  const { id, site } = { ...props }
 
   //! Render empty fragment if there is no Trailer
   if (!site || site !== 'youtube') {
@@ -26,9 +26,9 @@ const SectionTrailer = (
 
   // Render Trailer Section
   return (
-    <div className={styles['section']}>
-      <h2 className={styles['section__heading']}>Trailer:</h2>
-      <div className={styles['section__content']}>
+    <div className={classes['container']}>
+      <h3 className={classes['heading']}>Trailer</h3>
+      <div className={classes['content']}>
         <CardTrailer {...cardTrailerProps} />
       </div>
     </div>

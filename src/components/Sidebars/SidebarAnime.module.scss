@@ -1,0 +1,11 @@
+.container {
+  width: var(--width-sideContent);
+  margin-right: var(--marginRight-sideContent);
+}
+
+.data {
+  padding: 1.25rem;
+  background-color: #{'rgb(var(--color-bg-secondary))'};
+  border-radius: 0.25rem;
+  margin-bottom: 1rem;
+}

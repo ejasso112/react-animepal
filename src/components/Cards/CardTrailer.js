@@ -1,5 +1,5 @@
 // Import Styles
-import styles from './CardTrailer.module.scss'
+import classes from './CardTrailer.module.scss'
 
 //* Trailer Card Component
 const CardTrailer = (
@@ -8,16 +8,16 @@ const CardTrailer = (
     site: '', // - site of video
   }
 ) => {
-  // Deconstructing Props
+  // Destructuring Props
   const { id, site } = { ...props }
 
   // Varible holding url to trailer
   const trailer = `https://www.${site}.com/embed/${id}`
 
-  // Render Trailer
+  //* Render Trailer
   return (
-    <div className={styles['cardTrailer']}>
-      <iframe className={styles['cardTrailer__video']} title='trailer' src={trailer} frameBorder='0' enablejsapi='1' allowFullScreen='allowFullscreen' />
+    <div className={classes['container']}>
+      <iframe className={classes['video']} title='trailer' src={trailer} frameBorder='0' enablejsapi='1' allowFullScreen='allowFullscreen' />
     </div>
   )
 }

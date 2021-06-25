@@ -3,24 +3,25 @@ import { useContext, useEffect, useRef } from 'react'
 // Import Contexts
 import FetchedListsContext from '../context/FetchedListsContext'
 // Import Custom Components
-import CarouselSlider from '../components/Carousels/_CarouselSlider'
+import CarouselSlider from '../components/Carousels/CarouselSlider'
 // Import API Fetch
 import fetchAnimePage from '../API/fetchAnimePage'
 
+//* Manga Component
 const Manga = () => {
   // Getting Context for Fetched Manga Lists
   const fetchedListsContext = useContext(FetchedListsContext)
   // Getting State for Featured Manga List
-  const { perPage, setPerPage } = fetchedListsContext
+  const { perPage, setPerPage } = { ...fetchedListsContext }
 
   // Getting State for Trending Manga List
-  const { trendingManga, trendingMangaPage, setTrendingManga, setTrendingMangaPage } = fetchedListsContext
+  const { trendingManga, trendingMangaPage, setTrendingManga, setTrendingMangaPage } = { ...fetchedListsContext }
   // Getting State for Popular This Season Manga List
-  const { popularManga, popularMangaPage, setPopularManga, setPopularMangaPage } = fetchedListsContext
+  const { popularManga, popularMangaPage, setPopularManga, setPopularMangaPage } = { ...fetchedListsContext }
   // Getting State for Upcoming Manga List
-  const { upcomingManga, upcomingMangaPage, setUpcomingManga, setUpcomingMangaPage } = fetchedListsContext
+  const { upcomingManga, upcomingMangaPage, setUpcomingManga, setUpcomingMangaPage } = { ...fetchedListsContext }
   // Getting State for All Time Popular Manga List
-  const { topManga, topMangaPage, setTopManga, setTopMangaPage } = fetchedListsContext
+  const { topManga, topMangaPage, setTopManga, setTopMangaPage } = { ...fetchedListsContext }
 
   const targetRef = useRef()
 

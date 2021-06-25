@@ -1,0 +1,36 @@
+.ranking {
+  display: flex;
+  align-items: center;
+  margin-bottom: 0.75rem;
+  padding: 0.75rem 0.875rem;
+  border-radius: 0.25rem;
+  background-color: #{'rgb(var(--color-bg-secondary))'};
+
+  &__svg {
+    height: 0.8rem;
+    margin-right: 1rem;
+
+    &--star {
+      fill: #{'rgb(var(--color-star))'};
+    }
+
+    &--heart {
+      fill: #{'rgb(var(--color-heart))'};
+    }
+  }
+
+  &__content {
+    color: #{'rgb(var(--color-text-sub-primary))'};
+    font-weight: 500;
+    font-size: 0.8rem;
+    letter-spacing: 0.0325rem;
+  }
+
+  &--link {
+    &:hover {
+      .ranking__content {
+        color: #{'rgb(var(--color-highlight-light))'};
+      }
+    }
+  }
+}

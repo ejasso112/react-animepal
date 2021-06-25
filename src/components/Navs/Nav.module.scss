@@ -1,13 +1,13 @@
 .nav {
+  display: flex;
   z-index: 2;
   position: fixed;
   top: 0;
-  width: 100%;
-  display: flex;
   justify-content: space-between;
   align-items: center;
+  width: 100%;
   padding: var(--margin-container);
-  background-color: rgba($color: #0c0c0c, $alpha: 0.7);
+  background-color: #{'rgba(var(--color-bg-primary), 0.8)'};
 
   // Nav Logo
   &__logo {
@@ -29,15 +29,15 @@
 
     a {
       padding: 24px 24px;
-      color: var(--color-text-primary);
+      color: #{'rgb(var(--color-text-primary))'};
       font-size: 16px;
-      font-weight: 500;
+      font-weight: 400;
       border-bottom: 3px solid transparent;
     }
 
     &--active {
       a {
-        border-bottom: 3px solid var(--color-highlight);
+        border-bottom: 3px solid #{'rgb(var(--color-highlight-over))'};
       }
     }
   }
@@ -46,12 +46,12 @@
   &__searchBox {
     display: flex;
     align-items: center;
-    background: var(--color-highlight);
+    background: #{'rgb(var(--color-highlight))'};
     border-radius: 4px;
 
     svg {
       margin-left: 8px;
-      fill: #fff;
+      fill: #{'rgb(var(--color-text-primary))'};
     }
 
     input {
@@ -59,10 +59,10 @@
       background: none;
       width: 200px;
       padding: 10px 8px;
-      color: #fff;
+      color: #{'rgb(var(--color-text-primary))'};
 
       &::placeholder {
-        color: #fff;
+        color: #{'rgb(var(--color-text-tertiary))'};
       }
       &:focus {
         outline: none;

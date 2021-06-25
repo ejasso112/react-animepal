@@ -3,13 +3,14 @@ import { useContext, useEffect } from 'react'
 // Import Contexts
 import FetchedAnimeDetailsContext from '../context/FetchedAnimeDetailsContext'
 // Import Custom Components
-import Banner from '../components/_AnimeDetails/Banner/Banner'
-import Sidebar from '../components/_AnimeDetails/Sidebar/Sidebar'
-import Overview from '../components/_AnimeDetails/SubContainers/Overview'
+import BannerImg from '../components/Banners/BannerImg'
+import BannerAnime from '../components/Banners/BannerAnime'
+import SidebarAnime from '../components/Sidebars/SidebarAnime'
+import Overview from './AnimeDetails/Overview'
 // Import API Fetch
 import fetchAnimeDetails from '../API/fetchAnimeDetails'
 
-//* Anime Details Container Component
+//* Anime Details Component
 const AnimeDetails = (props) => {
   // Deconstruction Props
   const id = props.match.params.id
@@ -17,7 +18,7 @@ const AnimeDetails = (props) => {
   // Getting Context for Anime Details
   const fetchedAnimeDetailsContext = useContext(FetchedAnimeDetailsContext)
   // Getting State for Anime Details
-  const { animeDetails, setAnimeDetails } = fetchedAnimeDetailsContext
+  const { animeDetails, setAnimeDetails } = { ...fetchedAnimeDetailsContext }
 
   // Fetch Anime Details
   useEffect(() => {
@@ -37,6 +38,12 @@ const AnimeDetails = (props) => {
   const bannerProps = {
     id: animeDetails?.id,
     bannerImage: animeDetails?.bannerImage,
+    coverImage: animeDetails?.coverImage,
+  }
+
+  // Props Object for Anime Banner
+  const animeBannerProps = {
+    id: animeDetails?.id,
     title: animeDetails?.title,
     coverImage: animeDetails?.coverImage,
     description: animeDetails?.description,
@@ -70,11 +77,14 @@ const AnimeDetails = (props) => {
   const overviewProps = {
     trailer: animeDetails?.trailer,
   }
+
+  //* Render Anime Details
   return (
     <main>
-      <Banner {...bannerProps} />
-      <div style={{ margin: '0 16%', display: 'grid', gridTemplateColumns: 'min-content 1fr', gridTemplateRows: 'auto' }}>
-        <Sidebar {...sidebarProps} />
+      <BannerImg {...bannerProps} />
+      <BannerAnime {...animeBannerProps} />
+      <div style={{ margin: '2rem 16%', display: 'grid', gridTemplateColumns: 'min-content 1fr' }}>
+        <SidebarAnime {...sidebarProps} />
         <Overview {...overviewProps} />
       </div>
     </main>

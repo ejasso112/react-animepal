@@ -7,7 +7,7 @@ import CarouselLinkHeading from './carouselLinkHeading'
 // Import Helpers
 import { getParsedHTML } from '../../services/utilities'
 // Import Styles
-import classes from './_CarouselBanner.module.scss'
+import classes from './CarouselBanner.module.scss'
 
 //* Carousel Banner Component
 const CarouselBanner = (

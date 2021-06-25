@@ -36,17 +36,6 @@ const Nav = () => {
             <MagnifyingGlass />
             <input type='text' aria-label='Search' placeholder='Search' />
           </div>
-
-          {/* <div class='account-menu-item'>
-            <div class='account-dropdown-button'>
-              <a href='/YourAccount' role='button' tabindex='0' aria-haspopup='true' aria-expanded='false' aria-label='Eduardo - Account &amp; Settings'>
-                <span class='profile-link' role='presentation'>
-                  <img class='profile-icon' src='https://occ-0-851-853.1.nflxso.net/dnm/api/v6/K6hjPJd6cR6FpVELC5Pd6ovHRSk/AAAABVdbpdXsTot0Ie1N7uuLgQfP75ijnpmkJTjpjAxaVLsx2N7AN7B4LSP50hGGWMyYMSIFr7EbnRZOWM6vf3dlr9Y.png?r=88c' alt='' />
-                </span>
-              </a>
-              <span class='caret' role='presentation'></span>
-            </div>
-          </div> */}
         </div>
       </div>
     </nav>

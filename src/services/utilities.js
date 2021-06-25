@@ -35,63 +35,28 @@ const getDate = (date = { year: NaN, month: NaN, day: NaN }) => {
 const getCurrSeason = () => {
   const currentDate = new Date()
   const month = currentDate.getMonth() + 1
-
-  let season = ''
-  switch (month) {
-    case 12:
-    case 1:
-    case 2:
-      season = 'WINTER'
-      break
-    case 3:
-    case 4:
-    case 5:
-      season = 'SPRING'
-      break
-    case 6:
-    case 7:
-    case 8:
-      season = 'SUMMER'
-      break
-    default:
-      season = 'FALL'
-      break
-  }
-  return season
+  console.log(month)
+  if (month === 12 || month === 1 || month === 2) return 'WINTER'
+  if (month === 3 || month === 4 || month === 5) return 'SPRING'
+  if (month === 6 || month === 7 || month === 8) return 'SUMMER'
+  return 'FALL'
 }
 
 // Return Next Season String
 const getNextSeason = () => {
   const currentDate = new Date()
   const month = currentDate.getMonth() + 1
+  console.log(month)
 
-  let season = ''
-  switch (month) {
-    case 12:
-    case 1:
-    case 2:
-      season = 'SPRING'
-      break
-    case 3:
-    case 4:
-    case 5:
-      season = 'SUMMER'
-      break
-    case 6:
-    case 7:
-    case 8:
-      season = 'FALL'
-      break
-    default:
-      season = 'WINTER'
-      break
-  }
-  return season
+  if (month === 12 || month === 1 || month === 2) return 'SPRING'
+  if (month === 3 || month === 4 || month === 5) return 'SUMMER'
+  if (month === 6 || month === 7 || month === 8) return 'FALL'
+  return 'WINTER'
 }
 
 // Return Parsed String with Season and Year
 const getFullSeason = (season, seasonYear) => {
-  const parsedSeason = season === null ? undefined : seasonYear === null ? undefined : `${season} ${seasonYear}`
+  const parsedSeason = season && seasonYear && `${season} ${seasonYear}`
   return parsedSeason
 }
 
@@ -102,9 +67,26 @@ const getStudios = (studios) => {
     return { ...studio, ...edges[i] }
   })
 
-  const newStudios = formattedStudios.filter((studio) => studio.isMain).map((studio) => studio.name)
-  const newProducers = formattedStudios.filter((studio) => !studio.isMain).map((studio) => studio.name)
+  const newStudios = formattedStudios
+    .filter((studio) => studio.isMain)
+    .map((studio) => {
+      return { pathname: `/Studio/${studio.id}/${studio.name.replaceAll(' ', '_')}`, name: studio.name }
+    })
+  const newProducers = formattedStudios
+    .filter((studio) => !studio.isMain)
+    .map((studio) => {
+      return { pathname: `/Studio/${studio.id}/${studio.name.replaceAll(' ', '_')}`, name: studio.name }
+    })
+
   return [newStudios, newProducers]
+}
+
+const getEpDuration = (duration) => {
+  if (!duration) {
+    return undefined
+  }
+
+  return `${duration} mins`
 }
 
 const getNextEpAiringTime = (airingTime = { episode: NaN, timeUntilAiring: NaN }) => {
@@ -126,4 +108,4 @@ const getNextEpAiringTime = (airingTime = { episode: NaN, timeUntilAiring: NaN }
   return `Ep ${episode}: ${daysLeft}d ${hoursLeft}h ${minsLeft}m`
 }
 
-export { getParsedHTML, getCurrYear, getDate, getCurrSeason, getNextSeason, getFullSeason, getStudios, getNextEpAiringTime }
+export { getParsedHTML, getCurrYear, getDate, getCurrSeason, getNextSeason, getFullSeason, getStudios, getEpDuration, getNextEpAiringTime }

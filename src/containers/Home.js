@@ -3,29 +3,30 @@ import { useContext, useEffect, useRef } from 'react'
 // Import Contexts
 import FetchedListsContext from '../context/FetchedListsContext'
 // Import Custom Components
-import CarouselBanner from '../components/Carousels/_CarouselBanner'
-import CarouselSlider from '../components/Carousels/_CarouselSlider'
+import CarouselBanner from '../components/Carousels/CarouselBanner'
+import CarouselSlider from '../components/Carousels/CarouselSlider'
 // Import API Fetch
 import fetchFeatured from '../API/fetchFeatured'
 import fetchAnimePage from '../API/fetchAnimePage'
 // Import Helpers
 import { getCurrYear, getCurrSeason } from '../services/utilities'
 
+//* Home Comoponet
 const Home = () => {
   // Getting Context for Fetched Anime Lists
   const fetchedListsContext = useContext(FetchedListsContext)
   // Getting State for Featured Anime List
-  const { perPage, setPerPage } = fetchedListsContext
+  const { perPage, setPerPage } = { ...fetchedListsContext }
   // Getting State for Featured Anime List
-  const { featuredAnime, featuredAnimePage, setFeaturedAnime, setFeaturedAnimePage } = fetchedListsContext
+  const { featuredAnime, featuredAnimePage, setFeaturedAnime, setFeaturedAnimePage } = { ...fetchedListsContext }
   // Getting State for Trending Anime List
-  const { trendingAnime, trendingAnimePage, setTrendingAnime, setTrendingAnimePage } = fetchedListsContext
+  const { trendingAnime, trendingAnimePage, setTrendingAnime, setTrendingAnimePage } = { ...fetchedListsContext }
   // Getting State for Trending Manga List
-  const { trendingManga, trendingMangaPage, setTrendingManga, setTrendingMangaPage } = fetchedListsContext
+  const { trendingManga, trendingMangaPage, setTrendingManga, setTrendingMangaPage } = { ...fetchedListsContext }
   // Getting State for All Time Popular Anime List
-  const { topAnime, topAnimePage, setTopAnime, setTopAnimePage } = fetchedListsContext
+  const { topAnime, topAnimePage, setTopAnime, setTopAnimePage } = { ...fetchedListsContext }
   // Getting State for All Time Popular Manga List
-  const { topManga, topMangaPage, setTopManga, setTopMangaPage } = fetchedListsContext
+  const { topManga, topMangaPage, setTopManga, setTopMangaPage } = { ...fetchedListsContext }
 
   const targetRef = useRef()
   const currYear = getCurrYear()
@@ -193,6 +194,7 @@ const Home = () => {
     totalPages: 5,
   }
 
+  //* Render Home
   return (
     <main ref={targetRef}>
       <CarouselBanner {...featuredAnimeProps} />

@@ -3,7 +3,7 @@ import { useContext, useEffect, useRef } from 'react'
 // Import Contexts
 import FetchedListsContext from '../context/FetchedListsContext'
 // Import Custom Components
-import CarouselSlider from '../components/Carousels/_CarouselSlider'
+import CarouselSlider from '../components/Carousels/CarouselSlider'
 // Import API Fetch
 import fetchAnimePage from '../API/fetchAnimePage'
 // Import Helpers
@@ -14,15 +14,15 @@ const Anime = () => {
   // Getting Context for Fetched Anime Lists
   const fetchedListsContext = useContext(FetchedListsContext)
   // Getting State for Featured Anime List
-  const { perPage, setPerPage } = fetchedListsContext
+  const { perPage, setPerPage } = { ...fetchedListsContext }
   // Getting State for Trending Anime List
-  const { trendingAnime, trendingAnimePage, setTrendingAnime, setTrendingAnimePage } = fetchedListsContext
+  const { trendingAnime, trendingAnimePage, setTrendingAnime, setTrendingAnimePage } = { ...fetchedListsContext }
   // Getting State for Popular This Season Anime List
-  const { popularAnime, popularAnimePage, setPopularAnime, setPopularAnimePage } = fetchedListsContext
+  const { popularAnime, popularAnimePage, setPopularAnime, setPopularAnimePage } = { ...fetchedListsContext }
   // Getting State for Upcoming Anime List
-  const { upcomingAnime, upcomingAnimePage, setUpcomingAnime, setUpcomingAnimePage } = fetchedListsContext
+  const { upcomingAnime, upcomingAnimePage, setUpcomingAnime, setUpcomingAnimePage } = { ...fetchedListsContext }
   // Getting State for All Time Popular Anime List
-  const { topAnime, topAnimePage, setTopAnime, setTopAnimePage } = fetchedListsContext
+  const { topAnime, topAnimePage, setTopAnime, setTopAnimePage } = { ...fetchedListsContext }
 
   const targetRef = useRef()
   const currYear = getCurrYear()
@@ -161,6 +161,7 @@ const Anime = () => {
     totalPages: 5,
   }
 
+  //* Render Anime
   return (
     <main ref={targetRef} style={{ paddingTop: '6em' }}>
       <CarouselSlider {...trendingAnimeProps} />

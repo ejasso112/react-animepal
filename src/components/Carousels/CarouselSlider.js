@@ -7,7 +7,7 @@ import CarouselButtons from './carouselButtons'
 import CarouselLinkHeading from './carouselLinkHeading'
 import CardAnime from '../Cards/CardAnime'
 // Import Styles
-import classes from './_CarouselSlider.module.scss'
+import classes from './CarouselSlider.module.scss'
 
 //* Carousel Slider Component
 const CarouselSlider = (
@@ -23,7 +23,7 @@ const CarouselSlider = (
   }
 ) => {
   // Destructuring Props
-  const { type, sort, title, data, perPage, currPage, setCurrPage, totalPages } = props
+  const { type, sort, title, data, perPage, currPage, setCurrPage, totalPages } = { ...props }
 
   // State to keep track if carousel transition is true or false
   const [isSliding, setIsSliding] = useState(false)

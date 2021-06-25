@@ -18,7 +18,7 @@ const CarouselButtons = (
   }
 
   // Creating Button Map for Banner Buttons
-  const totalPagesArr = [...Array(totalPages).keys()]
+  const totalPagesArr = [...Array(totalPages)]
   const buttonsMap = totalPagesArr.map((item, i) => {
     const isButtonActive = i + 1 === currPage
     const activeClass = isButtonActive ? classes['button--active'] : ''
