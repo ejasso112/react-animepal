@@ -10,10 +10,10 @@ const SectionTrailer = (
     site: '', // - site of video
   }
 ) => {
-  // Deconstructing Props
+  // Destructuring Props
   const { id, site } = { ...props }
 
-  //! Render empty fragment if there is no Trailer
+  //* Render empty fragment if there is no Trailer
   if (!site || site !== 'youtube') {
     return <></>
   }
@@ -24,7 +24,7 @@ const SectionTrailer = (
     site: site,
   }
 
-  // Render Trailer Section
+  //* Render Trailer Section
   return (
     <div className={classes['container']}>
       <h3 className={classes['heading']}>Trailer</h3>

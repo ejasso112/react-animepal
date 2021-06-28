@@ -35,7 +35,6 @@ const getDate = (date = { year: NaN, month: NaN, day: NaN }) => {
 const getCurrSeason = () => {
   const currentDate = new Date()
   const month = currentDate.getMonth() + 1
-  console.log(month)
   if (month === 12 || month === 1 || month === 2) return 'WINTER'
   if (month === 3 || month === 4 || month === 5) return 'SPRING'
   if (month === 6 || month === 7 || month === 8) return 'SUMMER'
@@ -46,7 +45,6 @@ const getCurrSeason = () => {
 const getNextSeason = () => {
   const currentDate = new Date()
   const month = currentDate.getMonth() + 1
-  console.log(month)
 
   if (month === 12 || month === 1 || month === 2) return 'SPRING'
   if (month === 3 || month === 4 || month === 5) return 'SUMMER'

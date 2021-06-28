@@ -1,8 +1,13 @@
 .container {
+  margin-bottom: 2rem;
 }
 
 .heading {
 }
 
 .content {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(28rem, 1fr));
+  grid-template-rows: auto;
+  gap: 1.25rem;
 }

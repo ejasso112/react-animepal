@@ -2,8 +2,9 @@ const fetchAnimeDetails = async (params) => {
   const query = `
     query ($id: Int) {
       Media(id: $id) {
-        
+        # ----------------------
         # Basic Data
+        # ----------------------
         id
         idMal
         bannerImage
@@ -21,7 +22,9 @@ const fetchAnimeDetails = async (params) => {
         }
         description
 
+        # ----------------------
         # Rankings Data
+        # ----------------------
         averageScore
         rankings {
           id
@@ -36,7 +39,9 @@ const fetchAnimeDetails = async (params) => {
         }
         popularity
 
+        # ----------------------
         # Sidebar Data
+        # ----------------------
         nextAiringEpisode {
           episode
           timeUntilAiring
@@ -69,10 +74,28 @@ const fetchAnimeDetails = async (params) => {
         source
         genres
         synonyms
-
+        
+        # ----------------------
+        # Trailer
+        # ----------------------
         trailer {
           id
           site
+        }
+
+        # ----------------------
+        # Reviews
+        # ----------------------
+        reviews(perPage: 6, sort: RATING_DESC) {
+          nodes {
+            id
+            summary
+            user {
+              avatar {
+                medium
+              }
+            }
+          }
         }
       }
     }`

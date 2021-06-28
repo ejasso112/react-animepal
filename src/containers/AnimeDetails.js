@@ -76,6 +76,7 @@ const AnimeDetails = (props) => {
   // Create Props Object for Overview
   const overviewProps = {
     trailer: animeDetails?.trailer,
+    reviews: animeDetails?.reviews?.nodes,
   }
 
   //* Render Anime Details
