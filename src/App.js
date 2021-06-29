@@ -3,11 +3,13 @@ import { BrowserRouter as Router, Switch, Route } from 'react-router-dom'
 // Import Context Prooviders
 import FetchedListsProvider from './context/FetchedListsProvider'
 import FetchedAnimeDetailsProvider from './context/FetchedAnimeDetailsProvider'
+import FetchedSearchProvider from './context/FetchedSearchProvider'
 // Import Custom Components
 import Nav from './components/Navs/Nav'
 import Home from './containers/Home'
 import Anime from './containers/Anime'
 import Manga from './containers/Manga'
+import Browse from './containers/Browse'
 import AnimeDetails from './containers/AnimeDetails'
 
 //* App Component
@@ -21,7 +23,7 @@ const App = () => {
           <Route exact path={['/', '/home']} component={Home} />
 
           <Route
-            path='/anime/:id/:name'
+            path='/Anime/:id/:name'
             render={(props) => (
               <FetchedAnimeDetailsProvider>
                 <AnimeDetails {...props} />
@@ -29,8 +31,17 @@ const App = () => {
             )}
           />
 
-          <Route path='/anime' component={Anime} />
-          <Route path='/manga' component={Manga} />
+          <Route path='/Anime' component={Anime} />
+          <Route path='/Manga' component={Manga} />
+
+          <Route
+            path='/Search'
+            render={(props) => (
+              <FetchedSearchProvider>
+                <Browse {...props} />
+              </FetchedSearchProvider>
+            )}
+          />
         </Switch>
       </FetchedListsProvider>
     </Router>

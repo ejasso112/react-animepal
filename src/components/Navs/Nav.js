@@ -9,7 +9,7 @@ const Nav = () => {
     { to: '/Home', title: 'HOME' },
     { to: '/Anime', title: 'ANIME' },
     { to: '/Manga', title: 'MANGA' },
-    { to: '/Browse', title: 'BROWSE' },
+    { to: '/Search', title: 'BROWSE' },
   ]
 
   const linksMap = links.map((link, i) => {
