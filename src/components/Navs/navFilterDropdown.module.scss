@@ -1,0 +1,111 @@
+.container {
+  position: relative;
+  margin-bottom: 1.5rem;
+}
+
+.title {
+  padding-bottom: 0.625rem;
+  color: #{'rgb(var(--color-text-sub-primary))'};
+  font-weight: 600;
+  font-size: 0.90625rem;
+  letter-spacing: 0.03125rem;
+}
+
+.selected {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.5rem;
+  border-radius: 0.25rem;
+  cursor: pointer;
+  background-color: #{'rgb(var(--color-bg-tertiary))'};
+  box-shadow: 0 0.25rem 0.75rem #{'rgba(var(--color-shadow-dark), .3)'};
+  &:hover {
+    .selected__svg {
+      fill: #{'rgb(var(--color-text-sub-secondary))'};
+    }
+  }
+
+  &__content {
+    display: flex;
+  }
+
+  &__text {
+    padding: 0.2rem 0.5rem;
+    color: #{'rgb(var(--color-text-sub-quaternary))'};
+    font-weight: 500;
+    font-size: 0.825rem;
+    letter-spacing: 0.03125rem;
+
+    &--single {
+      color: #{'rgb(var(--color-highlight-light))'};
+    }
+
+    &--multi {
+      border-radius: 0.25rem;
+      color: #{'rgb(var(--color-text-sub-primary))'};
+      background-color: #{'rgb(var(--color-bg-quaternary))'};
+    }
+
+    & + & {
+      margin-left: 0.175rem;
+    }
+  }
+
+  &__svg {
+    height: 0.55rem;
+    transition: 200ms ease-in-out;
+    fill: #{'rgb(var(--color-text-sub-quaternary))'};
+  }
+}
+
+.dropdown {
+  opacity: 1;
+  z-index: 1;
+  position: absolute;
+  top: 100%;
+  left: 0;
+  width: 100%;
+  margin-top: 0.5rem;
+  padding: 0.5rem 0.75rem;
+  padding-bottom: 1rem;
+  border-radius: 0.25rem;
+  background-color: #{'rgb(var(--color-bg-tertiary))'};
+  transition: 100ms ease-in;
+  box-shadow: 0 0.25rem 0.75rem #{'rgba(var(--color-shadow-dark), .3)'};
+
+  &__item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.75rem;
+    border-radius: 0.25rem;
+    color: #{'rgb(var(--color-text-sub-tertiary))'};
+    font-weight: 600;
+    font-size: 0.78125rem;
+    letter-spacing: 0.03125rem;
+    cursor: pointer;
+    transition: 200ms ease-in-out;
+
+    &:hover {
+      color: #{'rgb(var(--color-highlight-light))'};
+      background-color: #{'rgb(var(--color-bg-secondary))'};
+    }
+  }
+
+  &__circle {
+    width: 0.75rem;
+    height: 0.75rem;
+    border-radius: 50%;
+
+    &--active {
+      background-color: #{'rgb(var(--color-highlight-light))'};
+    }
+  }
+}
+
+.hidden {
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(-0.5rem);
+}
