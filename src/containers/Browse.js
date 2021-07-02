@@ -7,8 +7,8 @@ import classes from './Browse.module.scss'
 const Browse = () => {
   return (
     <main className={classes['container']} style={{ paddingTop: '6em', margin: '0 2.5%' }}>
-      {/* <NavFilters /> */}
-      {/* <NavTags /> */}
+      <NavFilters />
+      <NavTags />
     </main>
   )
 }

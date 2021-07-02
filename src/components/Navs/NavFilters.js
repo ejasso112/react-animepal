@@ -1,5 +1,4 @@
-import { useContext, useEffect } from 'react'
-import { useHistory, useLocation } from 'react-router-dom'
+import { useContext } from 'react'
 import FetchedSearchContext from '../../context/FetchedSearchContext'
 // Import Custom Component
 import NavFilterSearch from './navFilterSearch'
@@ -11,33 +10,19 @@ import classes from './NavFilters.module.scss'
 //* Filters Nav Component
 const NavFilters = () => {
   const fetchedSearchContext = useContext(FetchedSearchContext)
-  const { getQueryString, setQueryString } = fetchedSearchContext
   const { animeGenres, animeYear, animeSeason, animeFormat, animeAiringStatus } = fetchedSearchContext
   const { setAnimeGenre, setAnimeYear, setAnimeSeason, setAnimeFormat, setAnimeAiringStatus } = fetchedSearchContext
   const { animeYearRange, animeEpisodesRange, animeDurationRange } = fetchedSearchContext
   const { setAnimeYearRange, setAnimeEpisodesRange, setAnimeDurationRange } = fetchedSearchContext
 
-  const currHistory = useHistory()
-  const location = useLocation()
-  const queryString = getQueryString()
-
-  useEffect(() => {
-    setQueryString(location.search)
-    // eslint-disable-next-line
-  }, [])
-
-  useEffect(() => {
-    currHistory.push({
-      pathname: '/Search',
-      search: queryString ? `${queryString}` : '',
-    })
-  }, [currHistory, queryString, animeGenres, animeYear, animeSeason, animeFormat, animeAiringStatus])
-
+  const onSearchHandler = (e) => {
+    console.log(e)
+  }
   // * Render Filters Nav
   return (
     <div className={classes['container']}>
       <div className={classes['content']}>
-        <NavFilterSearch heading='Search' />
+        <NavFilterSearch heading='Search' onChange={onSearchHandler} />
         <div className={classes['break']} />
         <NavFilterDropdown heading='Genres' content={['Action', 'Adventure', 'Comedy', 'Drama', 'Ecchi', 'Fantasy']} onClick={setAnimeGenre} selected={animeGenres} amount={animeGenres.length - 1} multi />
         <NavFilterDropdown heading='Year' content={['2021', '2020', '2019', '2018', '2017']} onClick={setAnimeYear} selected={[animeYear]} />
