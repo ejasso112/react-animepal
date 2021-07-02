@@ -18,6 +18,15 @@ const FetchedSearchContext = createContext({
 
   animeAiringStatus: '',
   setAnimeAiringStatus: (status) => {},
+
+  animeYearRange: [NaN, NaN],
+  setAnimeYearRange: (leftVal, rightVal) => {},
+
+  animeEpisodesRange: [NaN, NaN],
+  setAnimeEpisodesRange: (leftVal, rightVal) => {},
+
+  animeDurationRange: [NaN, NaN],
+  setAnimeDurationRange: (leftVal, rightVal) => {},
 })
 
 export default FetchedSearchContext

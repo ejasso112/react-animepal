@@ -4,23 +4,13 @@ import { useRef, useState, useEffect } from 'react'
 import classes from './navFilterRange.module.scss'
 
 //* Nav Dropdown Filter Component
-const NavFilterRange = (
-  props = {
-    heading: '', // ----------- heading of the dropdown group
-    content: [], // ----------- array if options to select
-    selected: [], // ---------- item that is currently selected
-    onClick: (item) => {}, // - function to perform on option click (add or remove or from context controlled by parent)
-  }
-) => {
+const NavFilterRange = (props) => {
   // Destructuring Props
-  const { heading, min, max } = { ...props }
+  const { heading, min, max, onChange, leftVal, rightVal } = { ...props }
+  const [isEnabled, setIsEnabled] = useState(false)
   const [isMouseDown, setIsMouseDown] = useState({ state: false, side: '', origin: 0 })
-  const [dragOffsetLeft, setDragOffsetLeft] = useState()
-  const [dragOffsetRight, setDragOffsetRight] = useState()
-
-  const [leftHandleActiveStep, setLeftHandleActiveStep] = useState(0)
-  const [rightHandleActiveStep, setRightHandleActiveStep] = useState(max - min)
-
+  const [dragOffsetLeft, setDragOffsetLeft] = useState(0)
+  const [dragOffsetRight, setDragOffsetRight] = useState(0)
   const [leftHandleVal, setLeftHandleVal] = useState(0)
   const [rightHandleVal, setRightHandleVal] = useState(max - min)
 
@@ -32,21 +22,32 @@ const NavFilterRange = (
   const steps = max - min
 
   useEffect(() => {
-    window.addEventListener('mouseup', onMouseUp)
+    const handleWidth = handleRightRef.current.offsetWidth
+    const sliderWidth = parentRef.current.offsetWidth - handleWidth
+    const distBtwSteps = sliderWidth / steps
+    !isNaN(leftVal) && setIsEnabled(true)
+    setLeftHandleVal(leftVal ? leftVal - min : 0)
+    setRightHandleVal(rightVal ? rightVal - min : steps)
+    setDragOffsetLeft(leftVal ? distBtwSteps * (leftVal - min) : 0)
+    setDragOffsetRight(rightVal ? distBtwSteps * (rightVal - min) - sliderWidth : 0)
+  }, [steps, min, leftVal, rightVal])
+
+  // Effect that adds Event Listeners for when mouse is lifted and moved while isMouseDown.state is true
+  useEffect(() => {
+    state && window.addEventListener('mouseup', onMouseUp)
     state && window.addEventListener('mousemove', onMouseMove)
 
-    return () => window.removeEventListener('mousemove', onMouseMove)
+    return () => {
+      window.removeEventListener('mouseup', onMouseUp)
+      window.removeEventListener('mousemove', onMouseMove)
+    }
+    // eslint-disable-next-line
   }, [state])
 
   useEffect(() => {
-    if (!state && leftHandleActiveStep !== leftHandleVal) {
-      setLeftHandleVal(leftHandleActiveStep)
-    }
-
-    if (!state && rightHandleActiveStep !== rightHandleVal) {
-      setRightHandleVal(rightHandleActiveStep)
-    }
-  }, [state, leftHandleActiveStep, leftHandleVal, rightHandleActiveStep, rightHandleVal])
+    !state && isEnabled && onChange && onChange(min + leftHandleVal, min + rightHandleVal)
+    // eslint-disable-next-line
+  }, [state, isEnabled, min, leftHandleVal, rightHandleVal])
 
   const onMouseUp = () => {
     setIsMouseDown({ state: false, side: '', origin: 0 })
@@ -54,49 +55,65 @@ const NavFilterRange = (
 
   const onMouseDown = (event, side) => {
     setIsMouseDown({ state: true, side: side, origin: event.clientX })
+    setIsEnabled(true)
   }
 
   const onMouseMove = (event) => {
     const currPos = event.clientX
-
     const mouseMovementX = currPos - origin
-    const rightHandleLeftOffset = handleRightRef.current.offsetLeft
-    const leftHandleLeftOffset = handleLeftRef.current.offsetLeft
     const handleWidth = handleRightRef.current.offsetWidth
-    const fullWidth = parentRef.current.offsetWidth - handleWidth
+    const sliderWidth = parentRef.current.offsetWidth - handleWidth
+    const distBtwSteps = sliderWidth / steps
+    const leftHandlePos = Math.round(handleLeftRef.current.offsetLeft / distBtwSteps)
+    const rightHandlePos = Math.round(handleRightRef.current.offsetLeft / distBtwSteps)
 
     if (side === 'left') {
-      const sliderWidth = rightHandleLeftOffset - handleWidth
-      const accessibleSteps = rightHandleVal - 1
-      const distBtwSteps = sliderWidth / accessibleSteps
-      const accumulatedSteps = leftHandleVal + Math.floor(mouseMovementX / distBtwSteps)
-      const stepsToMove = accumulatedSteps > accessibleSteps ? accessibleSteps : accumulatedSteps >= 1 ? accumulatedSteps : 0
-      setDragOffsetLeft((sliderWidth / accessibleSteps) * stepsToMove)
-      setLeftHandleActiveStep(stepsToMove)
-
+      const newCurrPos = leftHandleVal + Math.round(mouseMovementX / distBtwSteps)
+      const stepsToMove = newCurrPos >= rightHandlePos ? rightHandlePos - 1 : newCurrPos < 0 ? 0 : newCurrPos
+      setDragOffsetLeft(distBtwSteps * stepsToMove)
+      setLeftHandleVal(stepsToMove)
       return
     }
 
-    const sliderWidth = fullWidth - leftHandleLeftOffset - handleWidth
-    const firstStep = leftHandleVal + 1
-    const accessibleSteps = steps - firstStep
-    const distBtwSteps = sliderWidth / accessibleSteps
-    const accumulatedSteps = rightHandleVal + Math.floor(mouseMovementX / distBtwSteps)
-    const stepsToMove = accumulatedSteps > steps ? steps : accumulatedSteps < firstStep ? firstStep : accumulatedSteps
-    setDragOffsetRight((sliderWidth / accessibleSteps) * stepsToMove + handleWidth - distBtwSteps)
-    setRightHandleActiveStep(stepsToMove)
+    const newCurrPos = rightHandleVal + Math.round(mouseMovementX / distBtwSteps)
+    const stepsToMove = newCurrPos > steps ? steps : newCurrPos <= leftHandlePos ? leftHandlePos + 1 : newCurrPos
+
+    setDragOffsetRight(distBtwSteps * stepsToMove - sliderWidth)
+    setRightHandleVal(stepsToMove)
   }
 
-  console.log(leftHandleVal, rightHandleVal)
+  const isLeftVisbleClass = state && side === 'left' ? classes['vissible'] : ''
+  const isRightVisbleClass = state && side === 'right' ? classes['vissible'] : ''
+  const isYearRangeVisibleClass = !isNaN(leftVal) ? classes['vissible--years'] : ''
   //* Render Dropdown Filter
   return (
     <div className={classes['container']}>
-      <div className={classes['title']}>{heading}</div>
+      <div className={classes['heading']}>
+        <div className={classes['title']}>{heading}</div>
+        <div
+          className={`${classes['years']}  ${isYearRangeVisibleClass}`}
+          onClick={() => {
+            setIsEnabled(false)
+            onChange(undefined, undefined)
+          }}
+        >
+          {leftVal} - {rightVal} &ensp;
+          <svg className={classes['svg']} xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24'>
+            <path d='M23.954 21.03l-9.184-9.095 9.092-9.174-2.832-2.807-9.09 9.179-9.176-9.088-2.81 2.81 9.186 9.105-9.095 9.184 2.81 2.81 9.112-9.192 9.18 9.1z' />
+          </svg>
+        </div>
+      </div>
       <div className={classes['range']} ref={parentRef}>
         <div className={classes['range__rail']} />
-        <div className={classes['range__track']} />
-        <div className={`${classes['range__handle']} ${classes['range__handle--left']}`} ref={handleLeftRef} onMouseDown={(e) => onMouseDown(e, 'left')} style={{ left: dragOffsetLeft }} />
-        <div className={`${classes['range__handle']} ${classes['range__handle--right']}`} ref={handleRightRef} onMouseDown={(e) => onMouseDown(e, 'right')} style={{ left: dragOffsetRight }} />
+        <div className={classes['range__track']} style={{ left: dragOffsetLeft, right: Math.abs(dragOffsetRight) }} />
+        <div className={`${classes['range__handle']} ${classes['range__handle--left']}`} ref={handleLeftRef} onMouseDown={(e) => onMouseDown(e, 'left')} style={{ left: dragOffsetLeft }}>
+          <div className={`${classes['range__handle__tooltip']} ${isLeftVisbleClass}`}>{min + leftHandleVal}</div>
+          <div className={classes['range__handle__circle']} />
+        </div>
+        <div className={`${classes['range__handle']} ${classes['range__handle--right']}`} ref={handleRightRef} onMouseDown={(e) => onMouseDown(e, 'right')} style={{ right: Math.abs(dragOffsetRight) }}>
+          <div className={`${classes['range__handle__tooltip']} ${isRightVisbleClass}`}>{min + rightHandleVal}</div>
+          <div className={classes['range__handle__circle']} />
+        </div>
       </div>
     </div>
   )
