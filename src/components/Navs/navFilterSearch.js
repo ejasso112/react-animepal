@@ -1,5 +1,7 @@
 // Import React Dependancies
-import { useState, useEffect } from 'react'
+import { memo, useState, useEffect } from 'react'
+// Import Custom Hook
+import { useIsMount } from '../../services/customHooks'
 // Import Assets
 import MagnifyingGlass from '../../assets/MagnifyingGlass'
 // Import Styles
@@ -11,40 +13,45 @@ const NavFilterSearch = (
     heading: '', // ------------------ heading of the Search Filter
     placeholder: '', // -------------- input placeholder text
     defaultValue: '', // ------------- input default text value
+    timeout: NaN, // ----------------- timeout time for less rerenders
     onChange: (value = '') => {}, // - function to perform when input value changes
   }
 ) => {
   // Destructuring Props
-  const { heading, placeholder, defaultValue, onChange } = { ...props }
-  // State to store the currnet value
-  const [searchQuery, setSearchQuery] = useState(defaultValue || '')
+  const { heading, placeholder, defaultValue, timeout, onChange } = { ...props }
+  // State to store the current value
+  const [value, setValue] = useState(defaultValue || '')
+  // Costum Hook to check is isMount or Rerender
+  const isMount = useIsMount()
 
   // Effect to run timeout to only run onChange function every 400ms
   useEffect(() => {
     const identifier = setTimeout(() => {
-      onChange && onChange(searchQuery)
-    }, 400)
+      !isMount && onChange && value && onChange(value)
+    }, timeout || 0)
 
     return () => {
       clearTimeout(identifier)
     }
-  })
 
-  // Handler that updates State when input onChange Event is triggered
+    // eslint-disable-next-line
+  }, [value, timeout, onChange])
+
+  // Handler that updates State when input onChange event is triggered
   const onChangeHandler = (e) => {
-    setSearchQuery(e.target.value)
+    setValue(e.target.value)
   }
 
   //* Render Nav Search Filter
   return (
     <div className={classes['container']}>
-      <div className={classes['heading']}>{heading}</div>
+      <div className={classes['heading']}>{heading || 'Search'}</div>
       <div className={classes['content']}>
         <MagnifyingGlass className={classes['content__svg']} />
-        <input className={classes['content__text']} placeholder={placeholder || 'Search'} onChange={onChangeHandler} value={searchQuery} />
+        <input className={classes['content__text']} placeholder={placeholder || 'Search'} onChange={onChangeHandler} value={value} />
       </div>
     </div>
   )
 }
 
-export default NavFilterSearch
+export default memo(NavFilterSearch)

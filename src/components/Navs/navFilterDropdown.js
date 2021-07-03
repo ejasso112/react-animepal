@@ -1,5 +1,7 @@
 // Import React Dependancies
-import { useState, useEffect, useRef } from 'react'
+import { memo, useState, useEffect, useRef } from 'react'
+// Import Custom Hook
+import { useIsMount } from '../../services/customHooks'
 // Import Custom Components
 import DropdownArrow from '../../assets/DropdownArrow'
 // Import Styles
@@ -8,20 +10,37 @@ import classes from './navFilterDropdown.module.scss'
 //* Nav Dropdown Filter Component
 const NavFilterDropdown = (
   props = {
-    heading: '', // ----------- heading of the dropdown group
-    content: [], // ----------- array if options to select
-    selected: [], // ---------- item that is currently selected
-    isMulti: false, // -------- can you select multiple options
-    amount: NaN, // ----------- number of selections selected
-    onClick: (item) => {}, // - function to perform on option click (add or remove or from context controlled by parent)
+    heading: '', // ------------------- heading of the Dropdown Filter
+    options: [''], // ----------------- array of options to select
+    defaultValues: [''], // ----------- array of options selected by default
+    timeout: NaN, // ------------------ timeout time for less rerenders
+    multiSelect: false, // ------------ can you select multiple options
+    onChange: (values = []) => {}, // - function to perform when input values change
   }
 ) => {
   // Destructuring Props
-  const { heading, content, onClick, selected, multi, amount } = { ...props }
-  // State to store if the dropdown should be hidden or shown
+  const { heading, options, defaultValues, timeout, multiSelect, onChange } = { ...props }
+  // State to store the current value
+  const [values, setValues] = useState(defaultValues || [])
+  // State to store the bool if dropdown is hidden or not
   const [isHidden, setIsHidden] = useState(true)
-  // Ref to keep track of mouse click activity
+  // Costum Hook to check is isMount or Rerender
+  const isMount = useIsMount()
+  // ref to track mose click position
   const ref = useRef()
+
+  // Effect to run timeout to only run onChange function every 400ms
+  useEffect(() => {
+    const identifier = setTimeout(() => {
+      !isMount && onChange && onChange(values)
+    }, timeout || 0)
+
+    return () => {
+      clearTimeout(identifier)
+    }
+
+    // eslint-disable-next-line
+  }, [values, timeout, onChange])
 
   // Event Listener for when you click ouside of the component
   useEffect(() => {
@@ -31,10 +50,8 @@ const NavFilterDropdown = (
       }
     }
 
-    // Bind the event listener
     document.addEventListener('mouseup', handleClickOutside)
     return () => {
-      // Unbind the event listener on clean up
       document.removeEventListener('mouseup', handleClickOutside)
     }
   }, [ref, isHidden])
@@ -44,11 +61,23 @@ const NavFilterDropdown = (
     setIsHidden((prevState) => !prevState)
   }
 
+  // Handler that updates State when option onClick event is triggered
+  const onDropdownOptionClickHandler = (e) => {
+    const option = e.target.innerText
+    const isOptionUnique = !values.includes(option)
+
+    if (!isOptionUnique) {
+      return setValues((prevState) => prevState.filter((value) => value !== option))
+    }
+
+    return multiSelect ? setValues((prevState) => [...prevState, option]) : setValues([option])
+  }
+
   // Variable to store map of dropdown items
-  const contentMap = content.map((item, i) => {
-    const itemActiveClass = selected.includes(item) ? classes['dropdown__circle--active'] : ''
+  const contentMap = options.map((item, i) => {
+    const itemActiveClass = values.includes(item) ? classes['dropdown__circle--active'] : ''
     return (
-      <div className={classes['dropdown__item']} key={i} onClick={() => onClick(item)}>
+      <div className={classes['dropdown__item']} key={i} onClick={onDropdownOptionClickHandler}>
         <div>{item}</div>
         <div className={`${classes['dropdown__circle']} ${itemActiveClass}`} />
       </div>
@@ -58,7 +87,7 @@ const NavFilterDropdown = (
   // Styles class to be applied if dropdown should be hidden
   const hiddenClass = isHidden ? classes['hidden'] : ''
   // Styles class to be applied if the selected value is multi or single
-  const textClass = selected[0] ? classes[`selected__text--${multi ? 'multi' : 'single'}`] : ''
+  const textClass = values[0] ? classes[`selected__text--${multiSelect ? 'multi' : 'single'}`] : ''
 
   //* Render Dropdown Filter
   return (
@@ -66,8 +95,8 @@ const NavFilterDropdown = (
       <div className={classes['title']}>{heading}</div>
       <div className={classes['selected']} onClick={onDropdownClickHandler}>
         <div className={classes['selected__content']}>
-          <div className={`${classes['selected__text']} ${textClass}`}>{selected[0] || 'Any'}</div>
-          {amount > 0 && <div className={`${classes['selected__text']} ${textClass}`}>+{amount}</div>}
+          <div className={`${classes['selected__text']} ${textClass}`}>{values[0] || 'Any'}</div>
+          {values.length > 1 && <div className={`${classes['selected__text']} ${textClass}`}>+{values.length - 1}</div>}
         </div>
         <DropdownArrow className={classes['selected__svg']} />
       </div>
@@ -76,4 +105,4 @@ const NavFilterDropdown = (
   )
 }
 
-export default NavFilterDropdown
+export default memo(NavFilterDropdown)
