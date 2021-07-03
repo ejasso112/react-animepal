@@ -65,6 +65,7 @@
     background-color: rgb(74, 165, 195);
     height: 0.625rem;
     border-radius: 0.25rem;
+    opacity: 0.8;
   }
 
   &__handle {
@@ -72,6 +73,7 @@
     display: flex;
     justify-content: center;
     cursor: e-resize;
+    transform-origin: center;
 
     &__tooltip {
       pointer-events: none;
@@ -90,6 +92,7 @@
     }
 
     &__circle {
+      flex-shrink: 0;
       background-color: rgb(74, 165, 195);
       box-shadow: 0 0 0.5rem #{'rgb(var(--color-shadow-dark), 0.5)'};
       width: 1rem;
@@ -99,24 +102,35 @@
 
     &--left {
       left: 0;
-      padding-left: 0.5rem;
-      margin-left: -0.5rem;
       &:hover {
         .range__handle__tooltip {
           opacity: 1;
         }
       }
+      &::before {
+        content: '';
+        display: block;
+        right: 100%;
+        position: absolute;
+        width: 0.5rem;
+        height: 100%;
+      }
     }
 
     &--right {
-      right: calc(100% - 1rem);
-      padding-right: 0.5rem;
-      margin-right: -0.5rem;
-
+      right: 0;
       &:hover {
         .range__handle__tooltip {
           opacity: 1;
         }
+      }
+      &::before {
+        content: '';
+        display: block;
+        left: 100%;
+        position: absolute;
+        width: 0.5rem;
+        height: 100%;
       }
     }
   }

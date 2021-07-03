@@ -97,10 +97,7 @@
     width: 0.75rem;
     height: 0.75rem;
     border-radius: 50%;
-
-    &--active {
-      background-color: #{'rgb(var(--color-highlight-light))'};
-    }
+    background-color: #{'rgb(var(--color-highlight-light))'};
   }
 }
 

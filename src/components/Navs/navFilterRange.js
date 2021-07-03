@@ -1,117 +1,132 @@
 // Import React Dependancies
-import { useRef, useState, useEffect } from 'react'
+import { useRef, useState, useEffect, memo } from 'react'
+// Import Custom Hook
+import { useIsMount } from '../../services/customHooks'
 // Import Styles
 import classes from './navFilterRange.module.scss'
 
-//* Nav Dropdown Filter Component
-const NavFilterRange = (props) => {
+//* Nav Range Filter Component
+const NavFilterRange = (
+  props = {
+    heading: '', // ---------------------- heading of the Range Filter
+    min: NaN, // ------------------------- min Range value
+    max: NaN, // ------------------------- max Range value
+    defaultValues: [NaN], // ------------- array of values selected by default
+    timeout: NaN, // --------------------- timeout time for less rerenders
+    onChange: (values = [NaN]) => {}, // - function to perform when input values change
+  }
+) => {
   // Destructuring Props
-  const { heading, min, max, onChange, leftVal, rightVal } = { ...props }
-  const [isEnabled, setIsEnabled] = useState(false)
-  const [isMouseDown, setIsMouseDown] = useState({ state: false, side: '', origin: 0 })
-  const [dragOffsetLeft, setDragOffsetLeft] = useState(0)
-  const [dragOffsetRight, setDragOffsetRight] = useState(0)
-  const [leftHandleVal, setLeftHandleVal] = useState(0)
-  const [rightHandleVal, setRightHandleVal] = useState(max - min)
+  const { heading, min, max, defaultValues, timeout, onChange } = { ...props }
+  // State to check if Range is Enabled or Disabled
+  const [isEnabled, setIsEnabled] = useState(defaultValues ? true : false)
+  // State to store data when mouseDown on a handle
+  const [isListening, setIsListening] = useState({ state: false, side: '', origin: 0 })
+  // State to store the current range values
+  const [values, setValues] = useState([defaultValues ? defaultValues[0] : min, defaultValues ? defaultValues[1] : max])
+  // State to store the current range offsets
+  const [offsets, setOffsets] = useState([defaultValues ? (100 / (max - min)) * (defaultValues[0] - min) : 0, defaultValues ? (100 / (max - min)) * (defaultValues[1] - min) : 100])
+  // Destructuring isListening
+  const { state, origin, side } = { ...isListening }
+  // Costum Hook to check is isMount or Rerender
+  const isMount = useIsMount()
+  // Refs to get element widths
+  const sliderRef = useRef(null)
+  const handleRef = useRef(null)
 
-  // Destructuring isMouseDown
-  const { state, origin, side } = { ...isMouseDown }
-  const parentRef = useRef(null)
-  const handleLeftRef = useRef(null)
-  const handleRightRef = useRef(null)
-  const steps = max - min
-
+  // Effect to run timeout to only run onChange function every 400ms
   useEffect(() => {
-    const handleWidth = handleRightRef.current.offsetWidth
-    const sliderWidth = parentRef.current.offsetWidth - handleWidth
-    const distBtwSteps = sliderWidth / steps
-    !isNaN(leftVal) && setIsEnabled(true)
-    setLeftHandleVal(leftVal ? leftVal - min : 0)
-    setRightHandleVal(rightVal ? rightVal - min : steps)
-    setDragOffsetLeft(leftVal ? distBtwSteps * (leftVal - min) : 0)
-    setDragOffsetRight(rightVal ? distBtwSteps * (rightVal - min) - sliderWidth : 0)
-  }, [steps, min, leftVal, rightVal])
+    const identifier = setTimeout(() => {
+      !isMount && onChange && onChange(isEnabled ? values : [])
+    }, timeout || 0)
+
+    return () => {
+      clearTimeout(identifier)
+    }
+    // eslint-disable-next-line
+  }, [values, isEnabled, timeout, onChange])
 
   // Effect that adds Event Listeners for when mouse is lifted and moved while isMouseDown.state is true
   useEffect(() => {
-    state && window.addEventListener('mouseup', onMouseUp)
-    state && window.addEventListener('mousemove', onMouseMove)
+    state && window.addEventListener('mouseup', onMouseUpHandler)
+    state && window.addEventListener('mousemove', onMouseMoveHandler)
 
     return () => {
-      window.removeEventListener('mouseup', onMouseUp)
-      window.removeEventListener('mousemove', onMouseMove)
+      window.removeEventListener('mouseup', onMouseUpHandler)
+      window.removeEventListener('mousemove', onMouseMoveHandler)
     }
     // eslint-disable-next-line
   }, [state])
 
-  useEffect(() => {
-    !state && isEnabled && onChange && onChange(min + leftHandleVal, min + rightHandleVal)
-    // eslint-disable-next-line
-  }, [state, isEnabled, min, leftHandleVal, rightHandleVal])
-
-  const onMouseUp = () => {
-    setIsMouseDown({ state: false, side: '', origin: 0 })
+  // Handler for when mouse is up
+  const onMouseUpHandler = () => {
+    setIsListening({ state: false, side: '', origin: 0 })
   }
 
-  const onMouseDown = (event, side) => {
-    setIsMouseDown({ state: true, side: side, origin: event.clientX })
+  // Handler for when mouse is down
+  const onMouseDownHandler = (event, side) => {
+    setIsListening({ state: true, side: side, origin: event.clientX })
     setIsEnabled(true)
   }
 
-  const onMouseMove = (event) => {
-    const currPos = event.clientX
-    const mouseMovementX = currPos - origin
-    const handleWidth = handleRightRef.current.offsetWidth
-    const sliderWidth = parentRef.current.offsetWidth - handleWidth
-    const distBtwSteps = sliderWidth / steps
-    const leftHandlePos = Math.round(handleLeftRef.current.offsetLeft / distBtwSteps)
-    const rightHandlePos = Math.round(handleRightRef.current.offsetLeft / distBtwSteps)
+  // Handler for when mouse is moving
+  const onMouseMoveHandler = (event) => {
+    const mouseMovementX = event.clientX - origin
+    const handleWidth = handleRef.current.offsetWidth
+    const sliderWidth = sliderRef.current.offsetWidth - handleWidth
+    const distBtwSteps = 100 / (max - min)
+    const offset = side === 'left' ? (mouseMovementX / sliderWidth) * 100 + offsets[0] : (mouseMovementX / sliderWidth) * 100 + offsets[1]
+    const value = Math.floor(offset / distBtwSteps)
 
     if (side === 'left') {
-      const newCurrPos = leftHandleVal + Math.round(mouseMovementX / distBtwSteps)
-      const stepsToMove = newCurrPos >= rightHandlePos ? rightHandlePos - 1 : newCurrPos < 0 ? 0 : newCurrPos
-      setDragOffsetLeft(distBtwSteps * stepsToMove)
-      setLeftHandleVal(stepsToMove)
+      const finalValue = value + min >= values[1] ? values[1] - 1 : value + min < min ? min : value + min
+      const finalOffset = (100 / (max - min)) * (finalValue - min)
+      setOffsets((prevOffsets) => [finalOffset, prevOffsets[1]])
+      setValues((prevValues) => [finalValue, prevValues[1]])
       return
     }
 
-    const newCurrPos = rightHandleVal + Math.round(mouseMovementX / distBtwSteps)
-    const stepsToMove = newCurrPos > steps ? steps : newCurrPos <= leftHandlePos ? leftHandlePos + 1 : newCurrPos
-
-    setDragOffsetRight(distBtwSteps * stepsToMove - sliderWidth)
-    setRightHandleVal(stepsToMove)
+    const finalValue = value + min > max ? max : value + min <= values[0] ? values[0] + 1 : value + min
+    const finalOffset = (100 / (max - min)) * (finalValue - min)
+    setOffsets((prevOffsets) => [prevOffsets[0], finalOffset])
+    setValues((prevValues) => [prevValues[0], finalValue])
   }
 
+  // Handler for when mouse range tag is clicked
+  const onRangeTagClickHandler = () => {
+    setIsEnabled(false)
+    setValues([min, max])
+    setOffsets([0, 100])
+  }
+
+  // Styles class to be applied if left handle is being held
   const isLeftVisbleClass = state && side === 'left' ? classes['vissible'] : ''
+  // Styles class to be applied if right handle is being held
   const isRightVisbleClass = state && side === 'right' ? classes['vissible'] : ''
-  const isYearRangeVisibleClass = !isNaN(leftVal) ? classes['vissible--years'] : ''
-  //* Render Dropdown Filter
+  // Styles class to be applied if range is enabled
+  const isYearRangeVisibleClass = isEnabled ? classes['vissible--years'] : ''
+
+  //* Render Range Filter
   return (
-    <div className={classes['container']}>
+    <div className={classes['container']} ref={sliderRef}>
       <div className={classes['heading']}>
         <div className={classes['title']}>{heading}</div>
-        <div
-          className={`${classes['years']}  ${isYearRangeVisibleClass}`}
-          onClick={() => {
-            setIsEnabled(false)
-            onChange(undefined, undefined)
-          }}
-        >
-          {leftVal} - {rightVal} &ensp;
+        <div className={`${classes['years']}  ${isYearRangeVisibleClass}`} onClick={onRangeTagClickHandler}>
+          {values[0]} - {values[1]} &ensp;
           <svg className={classes['svg']} xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24'>
             <path d='M23.954 21.03l-9.184-9.095 9.092-9.174-2.832-2.807-9.09 9.179-9.176-9.088-2.81 2.81 9.186 9.105-9.095 9.184 2.81 2.81 9.112-9.192 9.18 9.1z' />
           </svg>
         </div>
       </div>
-      <div className={classes['range']} ref={parentRef}>
+      <div className={classes['range']}>
         <div className={classes['range__rail']} />
-        <div className={classes['range__track']} style={{ left: dragOffsetLeft, right: Math.abs(dragOffsetRight) }} />
-        <div className={`${classes['range__handle']} ${classes['range__handle--left']}`} ref={handleLeftRef} onMouseDown={(e) => onMouseDown(e, 'left')} style={{ left: dragOffsetLeft }}>
-          <div className={`${classes['range__handle__tooltip']} ${isLeftVisbleClass}`}>{min + leftHandleVal}</div>
-          <div className={classes['range__handle__circle']} />
+        <div className={classes['range__track']} style={{ left: `${offsets[0]}%`, right: `${100 - offsets[1]}%` }} />
+        <div className={`${classes['range__handle']} ${classes['range__handle--left']}`} onMouseDown={(e) => onMouseDownHandler(e, 'left')} style={{ left: `${offsets[0]}%`, transform: `translateX(-${offsets[0]}%)` }}>
+          <div className={`${classes['range__handle__tooltip']} ${isLeftVisbleClass}`}>{values[0]}</div>
+          <div className={classes['range__handle__circle']} ref={handleRef} />
         </div>
-        <div className={`${classes['range__handle']} ${classes['range__handle--right']}`} ref={handleRightRef} onMouseDown={(e) => onMouseDown(e, 'right')} style={{ right: Math.abs(dragOffsetRight) }}>
-          <div className={`${classes['range__handle__tooltip']} ${isRightVisbleClass}`}>{min + rightHandleVal}</div>
+        <div className={`${classes['range__handle']} ${classes['range__handle--right']}`} onMouseDown={(e) => onMouseDownHandler(e, 'right')} style={{ right: `${100 - offsets[1]}%`, transform: `translateX(${100 - offsets[1]}%)` }}>
+          <div className={`${classes['range__handle__tooltip']} ${isRightVisbleClass}`}>{values[1]}</div>
           <div className={classes['range__handle__circle']} />
         </div>
       </div>
@@ -119,4 +134,4 @@ const NavFilterRange = (props) => {
   )
 }
 
-export default NavFilterRange
+export default memo(NavFilterRange)

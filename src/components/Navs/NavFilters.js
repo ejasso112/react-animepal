@@ -1,5 +1,4 @@
-import { useCallback, useContext } from 'react'
-import FetchedSearchContext from '../../context/FetchedSearchContext'
+import { useCallback } from 'react'
 // Import Custom Component
 import NavFilterSearch from './navFilterSearch'
 import NavFilterDropdown from './navFilterDropdown'
@@ -9,9 +8,7 @@ import NavFilterCheckbox from './navFilterCheckbox'
 import classes from './NavFilters.module.scss'
 //* Filters Nav Component
 const NavFilters = () => {
-  const fetchedSearchContext = useContext(FetchedSearchContext)
-  const { animeYearRange, animeEpisodesRange, animeDurationRange } = fetchedSearchContext
-  const { setAnimeYearRange, setAnimeEpisodesRange, setAnimeDurationRange } = fetchedSearchContext
+  // Costum Hook to check is isMount or Rerender
 
   const onSearchHandler = useCallback((value) => {
     console.log(value)
@@ -37,6 +34,18 @@ const NavFilters = () => {
     console.log(values)
   }, [])
 
+  const onYearRangeChangeHandler = useCallback((values) => {
+    console.log(values)
+  }, [])
+
+  const onEpisodesRangeChangeHandler = useCallback((values) => {
+    console.log(values)
+  }, [])
+
+  const onDurationRangeChangeHandler = useCallback((values) => {
+    console.log(values)
+  }, [])
+
   // * Render Filters Nav
   return (
     <div className={classes['container']}>
@@ -49,17 +58,11 @@ const NavFilters = () => {
         <NavFilterDropdown heading='Format' options={['TV', 'Show', 'Movie', 'TV Short', 'Special', 'OVA', 'ONA', 'Music']} onChange={onFormatChangeHandler} timeout={600} multiSelect />
         <NavFilterDropdown heading='Airing Status' options={['Airing', 'Finished', 'Not Yet Aired', 'Cancelled']} onChange={onStatusChangeHandler} timeout={600} />
         <div className={classes['break']} />
-        <NavFilterRange heading='Year Range' min={1940} max={2022} onChange={setAnimeYearRange} leftVal={Number(animeYearRange[0])} rightVal={Number(animeYearRange[1])} />
-        <NavFilterRange heading='Episodes' min={0} max={150} onChange={setAnimeEpisodesRange} leftVal={Number(animeEpisodesRange[0])} rightVal={Number(animeEpisodesRange[1])} />
-        <NavFilterRange heading='Duration' min={0} max={170} onChange={setAnimeDurationRange} leftVal={Number(animeDurationRange[0])} rightVal={Number(animeDurationRange[1])} />
+        <NavFilterRange heading='Year Range' min={1940} max={2022} onChange={onYearRangeChangeHandler} timeout={600} />
+        <NavFilterRange heading='Episodes' min={0} max={150} onChange={onEpisodesRangeChangeHandler} timeout={600} />
+        <NavFilterRange heading='Duration' min={0} max={170} onChange={onDurationRangeChangeHandler} timeout={600} />
         <div className={classes['break']} />
-
-        <NavFilterCheckbox heading='Hide My Anime' />
-        <NavFilterCheckbox heading='Only Show My Anime' />
         <NavFilterCheckbox heading='Hentai' />
-        {/* <NavFilterDropdown heading='Streaming On' content={['Airing', 'Finished', 'Not Yet Aired', 'Cancelled']} onClick={setAnimeAiringStatus} selected={[animeAiringStatus]} />
-      <NavFilterDropdown heading='Country Of Origin' content={['Airing', 'Finished', 'Not Yet Aired', 'Cancelled']} onClick={setAnimeAiringStatus} selected={[animeAiringStatus]} />
-      <NavFilterDropdown heading='Source Material' content={['Airing', 'Finished', 'Not Yet Aired', 'Cancelled']} onClick={setAnimeAiringStatus} selected={[animeAiringStatus]} /> */}
       </div>
     </div>
   )

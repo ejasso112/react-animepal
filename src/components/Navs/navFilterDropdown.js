@@ -74,15 +74,12 @@ const NavFilterDropdown = (
   }
 
   // Variable to store map of dropdown items
-  const contentMap = options.map((item, i) => {
-    const itemActiveClass = values.includes(item) ? classes['dropdown__circle--active'] : ''
-    return (
-      <div className={classes['dropdown__item']} key={i} onClick={onDropdownOptionClickHandler}>
-        <div>{item}</div>
-        <div className={`${classes['dropdown__circle']} ${itemActiveClass}`} />
-      </div>
-    )
-  })
+  const contentMap = options.map((item, i) => (
+    <div className={classes['dropdown__item']} key={i} onClick={onDropdownOptionClickHandler}>
+      <div>{item}</div>
+      {values.includes(item) && <div className={`${classes['dropdown__circle']} `} />}
+    </div>
+  ))
 
   // Styles class to be applied if dropdown should be hidden
   const hiddenClass = isHidden ? classes['hidden'] : ''
