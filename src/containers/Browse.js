@@ -27,8 +27,8 @@ const Browse = () => {
       queryObj = { ...queryObj, [key]: value.map((value) => `${key}=${value}`).join('&') }
     }
 
-    const { search, genres, year, season, format, status, yearRange, episodeRange, durationRange } = { ...queryObj }
-    const queryString = [search, genres, year, season, format, status, yearRange, episodeRange, durationRange].filter((value) => value).join('&')
+    const { search, genres, year, season, format, status, yearRange, episodeRange, durationRange, hentai } = { ...queryObj }
+    const queryString = [search, genres, year, season, format, status, yearRange, episodeRange, durationRange, hentai].filter((value) => value).join('&')
     setSearchQuery(queryString ? `?${queryString}` : '')
   }, [])
 

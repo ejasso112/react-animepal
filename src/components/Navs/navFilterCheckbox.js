@@ -32,7 +32,7 @@ const NavFilterCheckbox = (
       clearTimeout(identifier)
     }
     // eslint-disable-next-line
-  }, [enabled, timeout, onChange])
+  }, [isEnabled, timeout, onChange])
 
   // Handler for when Checkbox onClick to toggle isEnabled
   const onCheckboxClickHandler = () => {

@@ -48,7 +48,7 @@ const NavFilters = (props = { onChange: () => {} }) => {
         <NavFilterRange heading='Episodes' type='episodeRange' min={0} max={150} onChange={onChangeHandler} timeout={600} />
         <NavFilterRange heading='Duration' type='durationRange' min={0} max={170} onChange={onChangeHandler} timeout={600} />
         <div className={classes['break']} />
-        <NavFilterCheckbox heading='Hentai' />
+        <NavFilterCheckbox heading='Hentai' type='hentai' onChange={onChangeHandler} timeout={600} />
       </div>
     </div>
   )
