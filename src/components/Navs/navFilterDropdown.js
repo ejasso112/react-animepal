@@ -10,16 +10,17 @@ import classes from './navFilterDropdown.module.scss'
 //* Nav Dropdown Filter Component
 const NavFilterDropdown = (
   props = {
-    heading: '', // ------------------- heading of the Dropdown Filter
-    options: [''], // ----------------- array of options to select
-    defaultValues: [''], // ----------- array of options selected by default
-    timeout: NaN, // ------------------ timeout time for less rerenders
-    multiSelect: false, // ------------ can you select multiple options
-    onChange: (values = []) => {}, // - function to perform when input values change
+    heading: '', // -------------------------------- heading of the Dropdown Filter
+    options: [''], // ------------------------------ array of options to select
+    defaultValues: [''], // ------------------------ array of options selected by default
+    type: '', // ----------------------------------- query key string
+    timeout: NaN, // ------------------------------- timeout time for less rerenders
+    multiSelect: false, // ------------------------- can you select multiple options
+    onChange: (values = [''], type = '') => {}, // - function to perform when input values change
   }
 ) => {
   // Destructuring Props
-  const { heading, options, defaultValues, timeout, multiSelect, onChange } = { ...props }
+  const { heading, options, defaultValues, type, timeout, multiSelect, onChange } = { ...props }
   // State to store the current value
   const [values, setValues] = useState(defaultValues || [])
   // State to store the bool if dropdown is hidden or not
@@ -32,7 +33,7 @@ const NavFilterDropdown = (
   // Effect to run timeout to only run onChange function every 400ms
   useEffect(() => {
     const identifier = setTimeout(() => {
-      !isMount && onChange && onChange(values)
+      !isMount && onChange && onChange(values, type)
     }, timeout || 0)
 
     return () => {
@@ -42,7 +43,7 @@ const NavFilterDropdown = (
     // eslint-disable-next-line
   }, [values, timeout, onChange])
 
-  // Event Listener for when you click ouside of the component
+  // Event Listener for when you click outside of the component
   useEffect(() => {
     const handleClickOutside = (event) => {
       if (!ref.current.contains(event.target) && !isHidden) {
@@ -86,7 +87,7 @@ const NavFilterDropdown = (
   // Styles class to be applied if the selected value is multi or single
   const textClass = values[0] ? classes[`selected__text--${multiSelect ? 'multi' : 'single'}`] : ''
 
-  //* Render Dropdown Filter
+  //* Render Nav Dropdown Filter
   return (
     <div className={classes['container']} ref={ref}>
       <div className={classes['title']}>{heading}</div>

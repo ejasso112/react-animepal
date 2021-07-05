@@ -8,16 +8,17 @@ import classes from './navFilterRange.module.scss'
 //* Nav Range Filter Component
 const NavFilterRange = (
   props = {
-    heading: '', // ---------------------- heading of the Range Filter
-    min: NaN, // ------------------------- min Range value
-    max: NaN, // ------------------------- max Range value
-    defaultValues: [NaN], // ------------- array of values selected by default
-    timeout: NaN, // --------------------- timeout time for less rerenders
-    onChange: (values = [NaN]) => {}, // - function to perform when input values change
+    heading: '', // --------------------------------- heading of the Range Filter
+    min: NaN, // ------------------------------------ min Range value
+    max: NaN, // ------------------------------------ max Range value
+    defaultValues: [NaN], // ------------------------ array of values selected by default
+    type: '', // ------------------------------------ query key string
+    timeout: NaN, // -------------------------------- timeout time for less rerenders
+    onChange: (values = [NaN], type = '') => {}, // - function to perform when input values change
   }
 ) => {
   // Destructuring Props
-  const { heading, min, max, defaultValues, timeout, onChange } = { ...props }
+  const { heading, min, max, defaultValues, type, timeout, onChange } = { ...props }
   // State to check if Range is Enabled or Disabled
   const [isEnabled, setIsEnabled] = useState(defaultValues ? true : false)
   // State to store data when mouseDown on a handle
@@ -37,7 +38,7 @@ const NavFilterRange = (
   // Effect to run timeout to only run onChange function every 400ms
   useEffect(() => {
     const identifier = setTimeout(() => {
-      !isMount && onChange && onChange(isEnabled ? values : [])
+      !isMount && onChange && onChange(isEnabled ? values : [], type)
     }, timeout || 0)
 
     return () => {
@@ -106,7 +107,7 @@ const NavFilterRange = (
   // Styles class to be applied if range is enabled
   const isYearRangeVisibleClass = isEnabled ? classes['vissible--years'] : ''
 
-  //* Render Range Filter
+  //* Render Nav Range Filter
   return (
     <div className={classes['container']} ref={sliderRef}>
       <div className={classes['heading']}>

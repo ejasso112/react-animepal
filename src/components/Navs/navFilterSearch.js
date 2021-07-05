@@ -10,15 +10,16 @@ import classes from './navFilterSearch.module.scss'
 //* Nav Search Filter Component
 const NavFilterSearch = (
   props = {
-    heading: '', // ------------------ heading of the Search Filter
-    placeholder: '', // -------------- input placeholder text
-    defaultValue: '', // ------------- input default text value
-    timeout: NaN, // ----------------- timeout time for less rerenders
-    onChange: (value = '') => {}, // - function to perform when input value changes
+    heading: '', // ------------------------------- heading of the Search Filter
+    placeholder: '', // --------------------------- input placeholder text
+    defaultValue: '', // -------------------------- input default text value
+    type: '', // ---------------------------------- query key string
+    timeout: NaN, // ------------------------------ timeout time for less rerenders
+    onChange: (value = [''], type = '') => {}, // - function to perform when input value changes
   }
 ) => {
   // Destructuring Props
-  const { heading, placeholder, defaultValue, timeout, onChange } = { ...props }
+  const { heading, placeholder, defaultValue, type, timeout, onChange } = { ...props }
   // State to store the current value
   const [value, setValue] = useState(defaultValue || '')
   // Costum Hook to check is isMount or Rerender
@@ -27,7 +28,7 @@ const NavFilterSearch = (
   // Effect to run timeout to only run onChange function every 400ms
   useEffect(() => {
     const identifier = setTimeout(() => {
-      !isMount && onChange && value && onChange(value)
+      !isMount && onChange && onChange(value ? [value] : [], type)
     }, timeout || 0)
 
     return () => {
