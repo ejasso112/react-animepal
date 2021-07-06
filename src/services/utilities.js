@@ -106,4 +106,15 @@ const getNextEpAiringTime = (airingTime = { episode: NaN, timeUntilAiring: NaN }
   return `Ep ${episode}: ${daysLeft}d ${hoursLeft}h ${minsLeft}m`
 }
 
-export { getParsedHTML, getCurrYear, getDate, getCurrSeason, getNextSeason, getFullSeason, getStudios, getEpDuration, getNextEpAiringTime }
+const getQueryObject = (queryString = '') => {
+  let queryObj = {}
+  const parsedQuery = (queryString[0] === '?' ? queryString.substr(1) : queryString).split('&')
+  for (const query of parsedQuery) {
+    const [key, value] = query.split('=')
+    queryObj.hasOwnProperty(key)
+    queryObj = queryObj.hasOwnProperty(key) ? { ...queryObj, [key]: [...queryObj[key], value] } : { ...queryObj, [key]: [value] }
+  }
+  return queryString ? queryObj : {}
+}
+
+export { getParsedHTML, getCurrYear, getDate, getCurrSeason, getNextSeason, getFullSeason, getStudios, getEpDuration, getNextEpAiringTime, getQueryObject }
