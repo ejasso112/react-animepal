@@ -49,6 +49,8 @@ const NavFilters = (props = { onChange: () => {} }) => {
       <div className={classes['content']}>
         <NavFilterSearch type='search' onChange={onChangeHandler} defaultValue={values?.search} timeout={400} />
         <div className={classes['break']} />
+        <NavFilterDropdown heading='Sort By' options={['Title', 'Popularity', 'Average Score', 'Trending', 'Favorites', 'Date Added', 'Release Data']} defaultValues={values?.sort} type='sort' onChange={onChangeHandler} timeout={600} />
+        <div className={classes['break']} />
         <NavFilterDropdown heading='Genres' options={['Action', 'Adventure', 'Comedy', 'Drama', 'Ecchi', 'Fantasy']} defaultValues={values?.genres} type='genres' onChange={onChangeHandler} timeout={600} multiSelect />
         <NavFilterDropdown heading='Year' options={['2021', '2020', '2019', '2018', '2017']} defaultValues={values?.year} type='year' onChange={onChangeHandler} timeout={600} />
         <NavFilterDropdown heading='Season' options={['Winter', 'Summer', 'Spring', 'Fall']} defaultValues={values?.season} type='season' onChange={onChangeHandler} timeout={600} />
