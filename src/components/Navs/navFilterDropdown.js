@@ -85,18 +85,18 @@ const NavFilterDropdown = (
   // Styles class to be applied if dropdown should be hidden
   const hiddenClass = isHidden ? classes['hidden'] : ''
   // Styles class to be applied if the selected value is multi or single
-  const textClass = values[0] ? classes[`selected__text--${multiSelect ? 'multi' : 'single'}`] : ''
+  const textClass = values[0] ? classes[`content__text--${multiSelect ? 'multi' : 'single'}`] : ''
 
   //* Render Nav Dropdown Filter
   return (
     <div className={classes['container']} ref={ref}>
-      <div className={classes['title']}>{heading}</div>
-      <div className={classes['selected']} onClick={onDropdownClickHandler}>
-        <div className={classes['selected__content']}>
-          <div className={`${classes['selected__text']} ${textClass}`}>{values[0] || 'Any'}</div>
-          {values.length > 1 && <div className={`${classes['selected__text']} ${textClass}`}>+{values.length - 1}</div>}
+      <div className={classes['heading']}>{heading}</div>
+      <div className={classes['content']} onClick={onDropdownClickHandler}>
+        <div className={classes['content__container']}>
+          <div className={`${classes['content__text']} ${textClass}`}>{values[0] || 'Any'}</div>
+          {values.length > 1 && <div className={`${classes['content__text']} ${textClass}`}>+{values.length - 1}</div>}
         </div>
-        <DropdownArrow className={classes['selected__svg']} />
+        <DropdownArrow className={classes['content__svg']} />
       </div>
       <div className={`${classes['dropdown']} ${hiddenClass}`}>{contentMap}</div>
     </div>

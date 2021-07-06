@@ -117,4 +117,13 @@ const getQueryObject = (queryString = '') => {
   return queryString ? queryObj : {}
 }
 
-export { getParsedHTML, getCurrYear, getDate, getCurrSeason, getNextSeason, getFullSeason, getStudios, getEpDuration, getNextEpAiringTime, getQueryObject }
+const mergeClasses = (componentClass = {}, SharedClass = {}) => {
+  const classObj = { ...componentClass }
+  for (const [key, value] of Object.entries(classObj)) {
+    classObj[key] = SharedClass.hasOwnProperty(key) ? `${value} ${SharedClass[key]}` : value
+  }
+
+  return { ...SharedClass, ...classObj }
+}
+
+export { getParsedHTML, getCurrYear, getDate, getCurrSeason, getNextSeason, getFullSeason, getStudios, getEpDuration, getNextEpAiringTime, getQueryObject, mergeClasses }

@@ -1,5 +1,5 @@
 // Import React Dependancies
-import { memo, useState, useEffect } from 'react'
+import { useState, useEffect, memo } from 'react'
 // Import Custom Hook
 import { useIsMount } from '../../services/customHooks'
 // Import Assets
@@ -46,7 +46,7 @@ const NavFilterSearch = (
   //* Render Nav Search Filter
   return (
     <div className={classes['container']}>
-      <div className={classes['heading']}>{heading || 'Search'}</div>
+      <div className={classes['heading']}>{heading}</div>
       <div className={classes['content']}>
         <MagnifyingGlass className={classes['content__svg']} />
         <input className={classes['content__text']} placeholder={placeholder || 'Search'} onChange={onChangeHandler} value={value} />

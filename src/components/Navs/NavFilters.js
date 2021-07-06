@@ -47,7 +47,7 @@ const NavFilters = (props = { onChange: () => {} }) => {
   return (
     <div className={classes['container']}>
       <div className={classes['content']}>
-        <NavFilterSearch type='search' onChange={onChangeHandler} defaultValue={values?.search} timeout={400} />
+        <NavFilterSearch heading='Search' type='search' onChange={onChangeHandler} defaultValue={values?.search} timeout={400} />
         <div className={classes['break']} />
         <NavFilterDropdown heading='Sort By' options={['Title', 'Popularity', 'Average Score', 'Trending', 'Favorites', 'Date Added', 'Release Data']} defaultValues={values?.sort} type='sort' onChange={onChangeHandler} timeout={600} />
         <div className={classes['break']} />

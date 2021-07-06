@@ -13,21 +13,23 @@
 
 .content {
   display: flex;
+  justify-content: space-between;
   align-items: center;
   padding: 0.5rem 0.75rem;
   border-radius: 0.25rem;
+  cursor: pointer;
   background-color: #{'rgb(var(--color-bg-tertiary))'};
   box-shadow: 0 0.25rem 0.75rem #{'rgba(var(--color-shadow-dark), .3)'};
 
   &__text {
     width: 100%;
     padding: 0.2rem 0.5rem;
+    border: none;
     color: #{'rgb(var(--color-text-sub-secondary))'};
     font-weight: 500;
     font-size: 0.825rem;
     letter-spacing: 0.03125rem;
     background-color: transparent;
-    border: none;
 
     &:focus {
       outline: none;
@@ -40,8 +42,14 @@
 
   &__svg {
     height: 1.25rem;
+    padding-right: 0.25rem;
     transition: 200ms ease-in-out;
     fill: #{'rgb(var(--color-text-sub-quaternary))'};
-    padding-right: 0.25rem;
+  }
+
+  &:hover {
+    .content__svg {
+      fill: #{'rgb(var(--color-text-sub-secondary))'};
+    }
   }
 }
