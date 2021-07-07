@@ -117,6 +117,21 @@ const getQueryObject = (queryString = '') => {
   return queryString ? queryObj : {}
 }
 
+const getQueryArray = (queryString) => {
+  const parsedQuery = getQueryObject(queryString)
+
+  const query = []
+  for (const [key, values] of Object.entries(parsedQuery)) {
+    if (key === 'yearRange') query.push([key, `Year Range: ${values[0]} - ${values[1]}`])
+    else if (key === 'episodeRange') query.push([key, `Episodes: ${values[0]} - ${values[1]}`])
+    else if (key === 'durationRange') query.push([key, `Duration: ${values[0]} - ${values[1]}`])
+    else if (key === 'hentai') query.push([key, 'Hentai'])
+    else if (key !== 'sort') values.map((value) => query.push([key, value]))
+  }
+
+  return query
+}
+
 const mergeClasses = (componentClass = {}, SharedClass = {}) => {
   const classObj = { ...componentClass }
   for (const [key, value] of Object.entries(classObj)) {
@@ -126,4 +141,4 @@ const mergeClasses = (componentClass = {}, SharedClass = {}) => {
   return { ...SharedClass, ...classObj }
 }
 
-export { getParsedHTML, getCurrYear, getDate, getCurrSeason, getNextSeason, getFullSeason, getStudios, getEpDuration, getNextEpAiringTime, getQueryObject, mergeClasses }
+export { getParsedHTML, getCurrYear, getDate, getCurrSeason, getNextSeason, getFullSeason, getStudios, getEpDuration, getNextEpAiringTime, getQueryObject, mergeClasses, getQueryArray }

@@ -4,6 +4,7 @@ import { useState, useEffect, useRef } from 'react'
 import { useIsMount } from '../../services/customHooks'
 // Import Custom Components
 import DropdownArrow from '../../assets/DropdownArrow'
+import DoubleArrow from '../../assets/DoubleArrow'
 // Import Styles
 import classes from './navFilterDropdown.module.scss'
 
@@ -20,7 +21,7 @@ const NavFilterDropdown = (
   }
 ) => {
   // Destructuring Props
-  const { heading, options, defaultValues, type, timeout, multiSelect, onChange } = { ...props }
+  const { heading, options, defaultValues, type, timeout, multiSelect, altSelect, onChange } = { ...props }
   // State to store the current value
   const [values, setValues] = useState(defaultValues || [])
   // State to store the bool if dropdown is hidden or not
@@ -75,17 +76,36 @@ const NavFilterDropdown = (
   }
 
   // Variable to store map of dropdown items
-  const contentMap = options.map((item, i) => (
-    <div className={classes['dropdown__item']} key={i} onClick={onDropdownOptionClickHandler}>
-      <div>{item}</div>
-      {values.includes(item) && <div className={`${classes['dropdown__circle']} `} />}
-    </div>
-  ))
+  const contentMap = options.map((item, i) => {
+    const isActiveClass = values.length === 0 && item === 'Popularity' ? classes['dropdown__circle--active'] : values.includes(item) ? classes['dropdown__circle--active'] : ''
+
+    return (
+      <div className={`${classes['dropdown__item']} ${altSelect ? classes['dropdown__item--alt'] : ''}`} key={i} onClick={onDropdownOptionClickHandler}>
+        <div className={classes['dropdown__text']}>{item}</div>
+        <div className={`${classes['dropdown__circle']} ${isActiveClass}`} />
+      </div>
+    )
+  })
 
   // Styles class to be applied if dropdown should be hidden
   const hiddenClass = isHidden ? classes['hidden'] : ''
   // Styles class to be applied if the selected value is multi or single
-  const textClass = values[0] ? classes[`content__text--${multiSelect ? 'multi' : 'single'}`] : ''
+  const textClass = values[0] ? classes[`content__text--${multiSelect ? 'multi' : altSelect ? 'alt' : 'single'}`] : ''
+
+  if (altSelect) {
+    return (
+      <div className={`${classes['container']} ${classes['container--alt']}`} ref={ref}>
+        <div className={`${classes['content']} ${classes['content--alt']}`} onClick={onDropdownClickHandler}>
+          <DoubleArrow className={`${classes['content__svg']} ${classes['content__svg--alt']}`} />
+          <div className={classes['content__container']}>
+            <div className={`${classes['content__text']} ${classes['content__text--alt']}`}>{values[0] || 'Popularity'}</div>
+            {values.length > 1 && <div className={`${classes['content__text']} ${textClass}`}>+{values.length - 1}</div>}
+          </div>
+        </div>
+        <div className={`${classes['dropdown']} ${classes['dropdown--alt']} ${hiddenClass}`}>{contentMap}</div>
+      </div>
+    )
+  }
 
   //* Render Nav Dropdown Filter
   return (

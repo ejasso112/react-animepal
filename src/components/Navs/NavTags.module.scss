@@ -20,15 +20,21 @@
   border-radius: 0.25rem;
   letter-spacing: 0.021875;
   padding: 0.25rem 0.5rem;
-
+  cursor: pointer;
   margin: 0.25rem;
+
+  &:hover {
+    .x {
+      fill: #{'rgb(var(--color-text-sub-primary))'};
+    }
+  }
 }
 
 .svg {
   height: 1.125rem;
   fill: #{'rgb(var(--color-text-sub-quaternary))'};
   padding-right: 0.5rem;
-
+  transition: 100ms ease-in;
   flex-shrink: 0;
 }
 
@@ -36,5 +42,5 @@
   transition: 100ms ease-in;
   width: 0.5rem;
   height: 0.5rem;
-  fill: #{'rgb(var(--color-text-primary))'};
+  fill: #{'rgb(var(--color-text-sub-tertiary))'};
 }

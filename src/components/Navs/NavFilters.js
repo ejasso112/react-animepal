@@ -12,7 +12,11 @@ import { getQueryObject, getCurrYear } from '../../services/utilities'
 import classes from './NavFilters.module.scss'
 
 //* Filters Nav Component
-const NavFilters = (props = { onChange: () => {} }) => {
+const NavFilters = (
+  props = {
+    onChange: (values = {}) => {}, // - function to perform when values change
+  }
+) => {
   // Destructuring Props
   const { onChange } = { ...props }
   // Variable to hold location search query string
@@ -21,9 +25,6 @@ const NavFilters = (props = { onChange: () => {} }) => {
   const defaultValues = getQueryObject(queryString)
   // Variable to hold next year value
   const nextYear = getCurrYear() + 1
-
-  // Array of Sort options
-  const sort = ['Title', 'Popularity', 'Average Score', 'Trending', 'Favorites', 'Date Added', 'Release Date']
 
   // Array of Genre options
   const genres = ['Action', 'Adventure', 'Comedy', 'Drama', 'Ecchi', 'Fantasy', 'Hentai', 'Horror', 'Mahou Shoujo', 'Mecha', 'Music', 'Psychological', 'Romance', 'Sci-Fi', 'Slice of Life', 'Sports', 'Supernatural', 'Thriller']
@@ -67,8 +68,6 @@ const NavFilters = (props = { onChange: () => {} }) => {
     <div className={classes['container']}>
       <div className={classes['content']}>
         <NavFilterSearch heading='Search' type='search' defaultValue={defaultValues?.search} onChange={onChangeHandler} timeout={400} />
-        <div className={classes['break']} />
-        <NavFilterDropdown heading='Sort By' options={sort} defaultValues={defaultValues?.sort} type='sort' onChange={onChangeHandler} timeout={600} />
         <div className={classes['break']} />
         <NavFilterDropdown heading='Genres' options={genres} defaultValues={defaultValues?.genres} type='genres' onChange={onChangeHandler} timeout={600} multiSelect />
         <NavFilterDropdown heading='Year' options={years} defaultValues={defaultValues?.year} type='year' onChange={onChangeHandler} timeout={600} />

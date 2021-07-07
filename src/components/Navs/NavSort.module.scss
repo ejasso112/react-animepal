@@ -1,0 +1,8 @@
+.container {
+  margin-left: 1rem;
+  background-color: #{'rgb(var(--color-bg-secondary))'};
+  border-radius: 0.25rem;
+  width: 12rem;
+  padding: 0.5rem 0;
+  grid-column-end: -1;
+}
