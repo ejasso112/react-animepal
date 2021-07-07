@@ -1,5 +1,5 @@
 // Import React Dependancies
-import { memo, useState, useEffect, useRef } from 'react'
+import { useState, useEffect, useRef } from 'react'
 // Import Custom Hook
 import { useIsMount } from '../../services/customHooks'
 // Import Custom Components
@@ -103,4 +103,4 @@ const NavFilterDropdown = (
   )
 }
 
-export default memo(NavFilterDropdown)
+export default NavFilterDropdown

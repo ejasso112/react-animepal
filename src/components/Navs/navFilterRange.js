@@ -1,5 +1,5 @@
 // Import React Dependancies
-import { useRef, useState, useEffect, memo } from 'react'
+import { useRef, useState, useEffect } from 'react'
 // Import Custom Hook
 import { useIsMount } from '../../services/customHooks'
 // Import Styles
@@ -135,4 +135,4 @@ const NavFilterRange = (
   )
 }
 
-export default memo(NavFilterRange)
+export default NavFilterRange

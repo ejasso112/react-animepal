@@ -1,5 +1,5 @@
 // Import React Dependancies
-import { useState, useEffect, memo } from 'react'
+import { useState, useEffect } from 'react'
 // Import Custom Hook
 import { useIsMount } from '../../services/customHooks'
 // Import Styles
@@ -55,4 +55,4 @@ const NavFilterCheckbox = (
   )
 }
 
-export default memo(NavFilterCheckbox)
+export default NavFilterCheckbox

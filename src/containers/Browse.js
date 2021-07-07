@@ -1,18 +1,25 @@
-import { useCallback } from 'react'
+import { useCallback, useEffect } from 'react'
 import { useHistory } from 'react-router-dom'
 
 // Import Custom Components
 import NavFilters from '../components/Navs/NavFilters'
 import NavTags from '../components/Navs/NavTags'
+import { useIsMount } from '../services/customHooks'
 
 import classes from './Browse.module.scss'
 
 const Browse = () => {
   const history = useHistory()
+  const location = history.location.search
+  const isMount = useIsMount()
+
+  useEffect(() => {
+    !isMount && history.go(0)
+    // eslint-disable-next-line
+  }, [location])
 
   const onNavFiltersChangeHandler = useCallback(
     (values) => {
-      console.log(values)
       let queryObj = {}
       for (const [key, value] of Object.entries(values)) {
         queryObj = { ...queryObj, [key]: value.map((value) => `${key}=${value}`).join('&') }

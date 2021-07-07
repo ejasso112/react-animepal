@@ -112,7 +112,7 @@ const getQueryObject = (queryString = '') => {
   for (const query of parsedQuery) {
     const [key, value] = query.split('=')
     queryObj.hasOwnProperty(key)
-    queryObj = queryObj.hasOwnProperty(key) ? { ...queryObj, [key]: [...queryObj[key], value] } : { ...queryObj, [key]: [value] }
+    queryObj = queryObj.hasOwnProperty(key) ? { ...queryObj, [key]: [...queryObj[key], decodeURIComponent(value)] } : { ...queryObj, [key]: [decodeURIComponent(value)] }
   }
   return queryString ? queryObj : {}
 }
