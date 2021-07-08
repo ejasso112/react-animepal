@@ -45,6 +45,7 @@
     letter-spacing: 0.03125rem;
 
     &--alt {
+      white-space: nowrap;
       color: #{'rgb(var(--color-text-sub-secondary))'};
       font-size: 0.75rem;
       font-weight: 600;

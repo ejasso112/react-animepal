@@ -5,6 +5,8 @@ import { useLocation } from 'react-router-dom'
 import { getQueryObject } from '../../services/utilities'
 // Import Custom Component
 import NavFilterDropdown from './navFilterDropdown'
+import NavFilterDisplay from './navFilterDisplay'
+
 //Import Styles
 import classes from './NavSort.module.scss'
 
@@ -40,6 +42,8 @@ const NavSort = (props) => {
   return (
     <div className={classes['container']}>
       <NavFilterDropdown options={sort} defaultValues={defaultValues?.sort || ['Popularity']} type='sort' onChange={onChangeHandler} timeout={0} altSelect />
+      <div className={classes['break']} />
+      <NavFilterDisplay />
     </div>
   )
 }
