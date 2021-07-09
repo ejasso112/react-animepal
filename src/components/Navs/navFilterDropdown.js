@@ -31,6 +31,7 @@ const NavFilterDropdown = (
   // ref to track mose click position
   const ref = useRef()
 
+  // Effect to update values state when defaultValues Changes
   useEffect(() => {
     Array.isArray(defaultValues) && JSON.stringify(defaultValues) !== JSON.stringify(values) && setValues(defaultValues)
     !Array.isArray(defaultValues) && setValues([])

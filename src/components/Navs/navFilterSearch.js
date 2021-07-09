@@ -25,6 +25,7 @@ const NavFilterSearch = (
   // Costum Hook to check is isMount or Rerender
   const isMount = useIsMount()
 
+  // Effect to update value state when defaultValue Changes
   useEffect(() => {
     Array.isArray(defaultValue) && defaultValue[0] !== value && setValue(defaultValue[0])
     !Array.isArray(defaultValue) && setValue('')

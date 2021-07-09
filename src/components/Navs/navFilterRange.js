@@ -35,6 +35,7 @@ const NavFilterRange = (
   const sliderRef = useRef(null)
   const handleRef = useRef(null)
 
+  // Effect to update values, isenabled, offsets state when defaultValues Changes
   useEffect(() => {
     if (Array.isArray(defaultValues) && JSON.stringify(defaultValues) !== JSON.stringify(values)) {
       setIsEnabled(true)

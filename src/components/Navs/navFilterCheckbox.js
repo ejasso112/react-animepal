@@ -22,6 +22,7 @@ const NavFilterCheckbox = (
   // Costum Hook to check is isMount or Rerender
   const isMount = useIsMount()
 
+  // Effect to update isEnabled state when enabled Changes
   useEffect(() => {
     Array.isArray(enabled) && enabled[0] !== isEnabled && setIsEnabled(enabled[0])
     !Array.isArray(enabled) && setIsEnabled(false)

@@ -1,27 +1,36 @@
 // Import React Dependancies
-import { useCallback, useRef, useContext } from 'react'
+import { useCallback, useContext, useRef } from 'react'
 import FetchedSearchContext from '../../context/FetchedSearchContext'
-
 // Import Custom Component
-import NavFilterSearch from './navFilterSearch'
+import NavFilterCheckbox from './navFilterCheckbox'
 import NavFilterDropdown from './navFilterDropdown'
 import NavFilterRange from './navFilterRange'
-import NavFilterCheckbox from './navFilterCheckbox'
+import NavFilterSearch from './navFilterSearch'
 //Import Helpers
 import { getCurrYear } from '../../services/utilities'
 //Import Styles
 import classes from './NavFilters.module.scss'
 
 //* Filters Nav Component
-const NavFilters = (props) => {
+const NavFilters = (
+  props = {
+    onChange: (values = {}) => {}, // - function to perform when values change
+  }
+) => {
+  // Destructuring Props
   const { onChange } = { ...props }
+  // Use Ref
   const ref = useRef(null)
   // Variable to hold next year value
   const nextYear = getCurrYear() + 1
 
+  // Getting Context for Fetched Search Anime
   const fetchedSearchContext = useContext(FetchedSearchContext)
+  // Getting State for Filter Values
   const { animeValues } = { ...fetchedSearchContext }
+  // Setting ref.current to a copy of animeValues
   ref.current = { ...animeValues }
+
   // Array of Genre options
   const genres = ['Action', 'Adventure', 'Comedy', 'Drama', 'Ecchi', 'Fantasy', 'Hentai', 'Horror', 'Mahou Shoujo', 'Mecha', 'Music', 'Psychological', 'Romance', 'Sci-Fi', 'Slice of Life', 'Sports', 'Supernatural', 'Thriller']
 
@@ -42,7 +51,6 @@ const NavFilters = (props) => {
   const status = ['Airing', 'Finished', 'Not Yet Aired', 'Cancelled']
 
   // Handler for when some value is changed in the child components through onChange prop
-
   const onChangeHandler = useCallback(
     (val, type) => {
       let newQueryObj = { ...ref.current }
@@ -57,26 +65,24 @@ const NavFilters = (props) => {
     // eslint-disable-next-line
     []
   )
-  // const testString = JSON.stringify(animeValues?.search)
-  // console.log(testString && testString)
-  // console.log(testString && JSON.parse(testString))
+
   //* Render Filters Nav
   return (
     <div className={classes['container']}>
       <div className={classes['content']}>
-        <NavFilterSearch heading='Search' type='search' defaultValue={animeValues?.search} onChange={onChangeHandler} timeout={400} />
+        <NavFilterSearch heading='Search' type='search' defaultValue={animeValues?.search} onChange={onChangeHandler} timeout={0} />
         <div className={classes['break']} />
-        <NavFilterDropdown heading='Genres' options={genres} defaultValues={animeValues?.genres} type='genres' onChange={onChangeHandler} timeout={600} multiSelect />
-        <NavFilterDropdown heading='Year' options={years} defaultValues={animeValues?.year} type='year' onChange={onChangeHandler} timeout={600} />
-        <NavFilterDropdown heading='Season' options={seasons} defaultValues={animeValues?.season} type='season' onChange={onChangeHandler} timeout={600} />
-        <NavFilterDropdown heading='Format' options={formats} defaultValues={animeValues?.format} type='format' onChange={onChangeHandler} timeout={600} multiSelect />
-        <NavFilterDropdown heading='Airing Status' options={status} defaultValues={animeValues?.status} type='status' onChange={onChangeHandler} timeout={600} />
+        <NavFilterDropdown heading='Genres' options={genres} defaultValues={animeValues?.genres} type='genres' onChange={onChangeHandler} timeout={0} multiSelect />
+        <NavFilterDropdown heading='Year' options={years} defaultValues={animeValues?.year} type='year' onChange={onChangeHandler} timeout={0} />
+        <NavFilterDropdown heading='Season' options={seasons} defaultValues={animeValues?.season} type='season' onChange={onChangeHandler} timeout={0} />
+        <NavFilterDropdown heading='Format' options={formats} defaultValues={animeValues?.format} type='format' onChange={onChangeHandler} timeout={0} multiSelect />
+        <NavFilterDropdown heading='Airing Status' options={status} defaultValues={animeValues?.status} type='status' onChange={onChangeHandler} timeout={0} />
         <div className={classes['break']} />
-        <NavFilterRange heading='Year Range' min={1940} max={nextYear} defaultValues={animeValues?.yearRange} type='yearRange' onChange={onChangeHandler} timeout={600} />
-        <NavFilterRange heading='Episodes' min={0} max={150} defaultValues={animeValues?.episodeRange} type='episodeRange' onChange={onChangeHandler} timeout={600} />
-        <NavFilterRange heading='Duration' min={0} max={170} defaultValues={animeValues?.durationRange} type='durationRange' onChange={onChangeHandler} timeout={600} />
+        <NavFilterRange heading='Year Range' min={1940} max={nextYear} defaultValues={animeValues?.yearRange} type='yearRange' onChange={onChangeHandler} timeout={0} />
+        <NavFilterRange heading='Episodes' min={0} max={150} defaultValues={animeValues?.episodeRange} type='episodeRange' onChange={onChangeHandler} timeout={0} />
+        <NavFilterRange heading='Duration' min={0} max={170} defaultValues={animeValues?.durationRange} type='durationRange' onChange={onChangeHandler} timeout={0} />
         <div className={classes['break']} />
-        <NavFilterCheckbox heading='Hentai' onChange={onChangeHandler} enabled={animeValues?.hentai} type='hentai' timeout={600} />
+        <NavFilterCheckbox heading='Hentai' onChange={onChangeHandler} enabled={animeValues?.hentai} type='hentai' timeout={0} />
       </div>
     </div>
   )

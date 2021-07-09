@@ -1,83 +1,90 @@
 // Import React Dependancies
-import { useEffect, useContext, useCallback } from 'react'
+import { useCallback, useContext, useEffect } from 'react'
 import { useHistory } from 'react-router-dom'
 // Import Contexts
 import FetchedSearchContext from '../context/FetchedSearchContext'
 // Import Custom Components
-// import Search from './AnimeDetails/Search'
 import NavFilters from '../components/Navs/NavFilters'
-// import NavTags from '../components/Navs/NavTags'
-// import NavSort from '../components/Navs/NavSort'
+import NavTags from '../components/Navs/NavTags'
+import NavSort from '../components/Navs/NavSort'
+// Import API Fetch
+import fetchSearchedPage from '../API/fetchSearch'
 // Import Helpers
 import { getQueryObject, getQueryString } from '../services/utilities'
 // Import Styles
 import classes from './Browse.module.scss'
 
+//* Browse Component
 const Browse = () => {
+  // Getting url history
   const history = useHistory()
+  // Getting Context for Fetched Search Anime
   const fetchedSearchContext = useContext(FetchedSearchContext)
+  // Getting State for Filter Values
   const { animeValues, setAnimeValues } = { ...fetchedSearchContext }
+  // Getting State for Searched Anime
+  const { searchedAnime, searchedAnimePage, setSearchedAnime, setSearchedAnimePage } = { ...fetchedSearchContext }
 
+  // Effect that updates Filter Values when location and current anime values dont match
   useEffect(() => {
     const location = decodeURIComponent(history.location.search)
     if (location !== getQueryString(animeValues)) {
       setAnimeValues(getQueryObject(location))
     }
-    // JSON.stringify(getQueryObject(location)) !== JSON.stringify(animeValues) && setAnimeValues(getQueryObject(location))
   })
 
+  // Fetch Search Anime
+  useEffect(() => {
+    const identifier = setTimeout(() => {
+      console.log('here')
+      const paramsSearchedAnime = {
+        page: searchedAnimePage,
+        perPage: 50,
+        type: 'ANIME',
+        sort: animeValues?.sort && animeValues.sort[0],
+        search: animeValues?.search && animeValues.search[0],
+        genres: animeValues?.genres,
+        seasonYear: animeValues?.year && animeValues.year[0],
+        season: animeValues?.season && animeValues.season[0],
+        format: animeValues?.format,
+        status: animeValues?.status && animeValues.status[0],
+        yearRange: animeValues?.yearRange,
+        episodeRange: animeValues?.episodeRange,
+        durationRange: animeValues?.durationRange,
+        hentai: animeValues?.hentai && animeValues.hentai[0],
+      }
+
+      fetchSearchedPage(paramsSearchedAnime).then((data) => {
+        setSearchedAnime(data)
+      })
+    }, 600)
+
+    return () => {
+      clearTimeout(identifier)
+    }
+  }, [animeValues, searchedAnimePage, setSearchedAnime, setSearchedAnimePage])
+
+  // Handler to update Filter Values and change search query location onChange trigger
   const onChangeHandler = useCallback(
     (newValues) => {
       const location = history.location.search
-
       const newQueryString = getQueryString(newValues)
+      setSearchedAnimePage(1)
       setAnimeValues(newValues)
       !location && history.push({ pathname: '/Search', search: newQueryString })
       location && history.replace({ pathname: '/Search', search: newQueryString })
     },
-    [history, setAnimeValues]
+    [history, setAnimeValues, setSearchedAnimePage]
   )
-  return (
-    <main className={classes['container']} style={{ paddingTop: '6em', margin: '0 2.5%' }}>
-      <NavFilters onChange={onChangeHandler} animeValues={animeValues} />
-      {/* <NavTags /> */}
-      {/* <NavSort /> */}
-      {/* <CarouselSlider {...trendingAnimeProps} /> */}
 
-      {/* <Search /> */}
+  //* Render Browse
+  return (
+    <main className={classes['container']}>
+      <NavFilters onChange={onChangeHandler} />
+      <NavTags onChange={onChangeHandler} />
+      <NavSort onChange={onChangeHandler} />
     </main>
   )
 }
 
 export default Browse
-
-/*
-  const [queryString, setQueryString] = useState({ string: location, action: 'push' })
-  const isMount = useIsMount()
-
-  const fetchedSearchContext = useContext(FetchedSearchContext)
-  const { animeValues, setAnimeValues } = { ...fetchedSearchContext }
-  const newQueryString = getQueryString(animeValues)
-
-  useEffect(() => {
-    location !== queryString.string && setAnimeValues(getQueryObject(location))
-    // eslint-disable-next-line
-  }, [location])
-
-  useEffect(() => {
-    isMount && JSON.stringify(getQueryObject(queryString.string)) !== JSON.stringify(animeValues) && setAnimeValues(getQueryObject(queryString.string))
-  }, [isMount, queryString, animeValues, setAnimeValues])
-
-  useEffect(() => {
-    if (!isMount && queryString.string !== newQueryString) {
-      setQueryString({ string: newQueryString, action: queryString.string ? 'replace' : 'push' })
-    }
-  }, [isMount, newQueryString, queryString])
-
-  useEffect(() => {
-    if (!isMount && JSON.stringify(getQueryObject(queryString.string)) === JSON.stringify(animeValues)) {
-      queryString.action === 'replace' && history.replace({ pathname: '/Search', search: queryString.string })
-      queryString.action === 'push' && history.push({ pathname: '/Search', search: queryString.string })
-    }
-  }, [queryString])
-*/

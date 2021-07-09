@@ -5,7 +5,9 @@ import DisplayGrid from '../../assets/DisplayGrid'
 // Import Styles
 import classes from './navFilterDisplay.module.scss'
 
+//* Nav Display Filter Component
 const NavFilterDisplay = () => {
+  //* Render Nav Diplay Filter
   return (
     <div className={classes['container']}>
       <DisplayCard className={`${classes['svg']}`} />
