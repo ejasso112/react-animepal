@@ -1,5 +1,5 @@
 // Import React Dependancies
-import { useState, useEffect } from 'react'
+import { useState, useEffect, memo } from 'react'
 // Import Custom Hook
 import { useIsMount } from '../../services/customHooks'
 // Import Styles
@@ -18,14 +18,23 @@ const NavFilterCheckbox = (
   // Destructuring Props
   const { heading, enabled, type, timeout, onChange } = { ...props }
   // State to check if Checkbox is enabled or disabled
-  const [isEnabled, setIsEnabled] = useState(enabled || false)
+  const [isEnabled, setIsEnabled] = useState((enabled && enabled[0]) || false)
   // Costum Hook to check is isMount or Rerender
   const isMount = useIsMount()
+
+  useEffect(() => {
+    Array.isArray(enabled) && enabled[0] !== isEnabled && setIsEnabled(enabled[0])
+    !Array.isArray(enabled) && setIsEnabled(false)
+
+    // eslint-disable-next-line
+  }, [enabled])
 
   // Effect to run timeout to only run onChange function every 400ms
   useEffect(() => {
     const identifier = setTimeout(() => {
-      !isMount && onChange && onChange(isEnabled ? [isEnabled] : [], type)
+      if (enabled || isEnabled) {
+        !isMount && onChange && onChange(isEnabled ? [isEnabled] : [], type)
+      }
     }, timeout || 0)
 
     return () => {
@@ -55,4 +64,4 @@ const NavFilterCheckbox = (
   )
 }
 
-export default NavFilterCheckbox
+export default memo(NavFilterCheckbox)

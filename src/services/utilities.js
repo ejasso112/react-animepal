@@ -132,6 +132,18 @@ const getQueryArray = (queryString) => {
   return query
 }
 
+const getQueryString = (values) => {
+  let queryObj = {}
+  for (const [key, value] of Object.entries(values)) {
+    queryObj = { ...queryObj, [key]: value.map((value) => `${key}=${value}`).join('&') }
+  }
+
+  const { search, sort, genres, year, season, format, status, yearRange, episodeRange, durationRange, hentai } = { ...queryObj }
+  const queryString = [search, sort, genres, year, season, format, status, yearRange, episodeRange, durationRange, hentai].filter((value) => value).join('&')
+
+  return queryString ? `?${queryString}` : queryString
+}
+
 const mergeClasses = (componentClass = {}, SharedClass = {}) => {
   const classObj = { ...componentClass }
   for (const [key, value] of Object.entries(classObj)) {
@@ -141,4 +153,4 @@ const mergeClasses = (componentClass = {}, SharedClass = {}) => {
   return { ...SharedClass, ...classObj }
 }
 
-export { getParsedHTML, getCurrYear, getDate, getCurrSeason, getNextSeason, getFullSeason, getStudios, getEpDuration, getNextEpAiringTime, getQueryObject, mergeClasses, getQueryArray }
+export { getParsedHTML, getCurrYear, getDate, getCurrSeason, getNextSeason, getFullSeason, getStudios, getEpDuration, getNextEpAiringTime, getQueryObject, mergeClasses, getQueryArray, getQueryString }

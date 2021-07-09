@@ -1,5 +1,5 @@
 // Import React Dependancies
-import { useState, useEffect, useRef } from 'react'
+import { useState, useEffect, useRef, memo } from 'react'
 // Import Custom Hook
 import { useIsMount } from '../../services/customHooks'
 // Import Custom Components
@@ -31,10 +31,18 @@ const NavFilterDropdown = (
   // ref to track mose click position
   const ref = useRef()
 
+  useEffect(() => {
+    Array.isArray(defaultValues) && JSON.stringify(defaultValues) !== JSON.stringify(values) && setValues(defaultValues)
+    !Array.isArray(defaultValues) && setValues([])
+    // eslint-disable-next-line
+  }, [defaultValues])
+
   // Effect to run timeout to only run onChange function every 400ms
   useEffect(() => {
     const identifier = setTimeout(() => {
-      !isMount && onChange && onChange(values, type)
+      if (defaultValues || values.length > 0 ? true : false) {
+        !isMount && onChange && onChange(values, type)
+      }
     }, timeout || 0)
 
     return () => {
@@ -123,4 +131,4 @@ const NavFilterDropdown = (
   )
 }
 
-export default NavFilterDropdown
+export default memo(NavFilterDropdown)

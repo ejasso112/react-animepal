@@ -1,5 +1,5 @@
 // Import React Dependancies
-import { useState, useEffect } from 'react'
+import { useState, useEffect, memo } from 'react'
 // Import Custom Hook
 import { useIsMount } from '../../services/customHooks'
 // Import Assets
@@ -21,20 +21,27 @@ const NavFilterSearch = (
   // Destructuring Props
   const { heading, placeholder, defaultValue, type, timeout, onChange } = { ...props }
   // State to store the current value
-  const [value, setValue] = useState(defaultValue || '')
+  const [value, setValue] = useState((defaultValue && defaultValue[0]) || '')
   // Costum Hook to check is isMount or Rerender
   const isMount = useIsMount()
+
+  useEffect(() => {
+    Array.isArray(defaultValue) && defaultValue[0] !== value && setValue(defaultValue[0])
+    !Array.isArray(defaultValue) && setValue('')
+    // eslint-disable-next-line
+  }, [defaultValue])
 
   // Effect to run timeout to only run onChange function every 400ms
   useEffect(() => {
     const identifier = setTimeout(() => {
-      !isMount && onChange && onChange(value ? [value] : [], type)
+      if (defaultValue || value) {
+        !isMount && onChange && onChange(value ? [value] : [], type)
+      }
     }, timeout || 0)
 
     return () => {
       clearTimeout(identifier)
     }
-
     // eslint-disable-next-line
   }, [value, timeout, onChange])
 
@@ -55,4 +62,4 @@ const NavFilterSearch = (
   )
 }
 
-export default NavFilterSearch
+export default memo(NavFilterSearch)

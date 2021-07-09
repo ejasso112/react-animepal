@@ -1,5 +1,5 @@
 // Import React Dependancies
-import { useRef, useState, useEffect } from 'react'
+import { useRef, useState, useEffect, memo } from 'react'
 // Import Custom Hook
 import { useIsMount } from '../../services/customHooks'
 // Import Styles
@@ -24,7 +24,7 @@ const NavFilterRange = (
   // State to store data when mouseDown on a handle
   const [isListening, setIsListening] = useState({ state: false, side: '', origin: 0 })
   // State to store the current range values
-  const [values, setValues] = useState([defaultValues ? defaultValues[0] : min, defaultValues ? defaultValues[1] : max])
+  const [values, setValues] = useState([defaultValues ? Number(defaultValues[0]) : min, defaultValues ? Number(defaultValues[1]) : max])
   // State to store the current range offsets
   const [offsets, setOffsets] = useState([defaultValues ? (100 / (max - min)) * (defaultValues[0] - min) : 0, defaultValues ? (100 / (max - min)) * (defaultValues[1] - min) : 100])
   // Destructuring isListening
@@ -35,10 +35,26 @@ const NavFilterRange = (
   const sliderRef = useRef(null)
   const handleRef = useRef(null)
 
+  useEffect(() => {
+    if (Array.isArray(defaultValues) && JSON.stringify(defaultValues) !== JSON.stringify(values)) {
+      setIsEnabled(true)
+      setValues([Number(defaultValues[0]), Number(defaultValues[1])])
+      setOffsets([(100 / (max - min)) * (defaultValues[0] - min), 100], (100 / (max - min)) * (defaultValues[1] - min))
+    } else if (!Array.isArray(defaultValues)) {
+      setIsEnabled(false)
+      setValues([min, max])
+      setOffsets([0, 100])
+    }
+
+    // eslint-disable-next-line
+  }, [defaultValues])
+
   // Effect to run timeout to only run onChange function every 400ms
   useEffect(() => {
     const identifier = setTimeout(() => {
-      !isMount && onChange && onChange(isEnabled ? values : [], type)
+      if (defaultValues || JSON.stringify(values) !== JSON.stringify([min, max])) {
+        !isMount && onChange && onChange(isEnabled ? values : [], type)
+      }
     }, timeout || 0)
 
     return () => {
@@ -135,4 +151,4 @@ const NavFilterRange = (
   )
 }
 
-export default NavFilterRange
+export default memo(NavFilterRange)
