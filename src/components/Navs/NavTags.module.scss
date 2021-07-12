@@ -1,10 +1,9 @@
 .container {
   display: flex;
   align-items: center;
-  margin-left: 1rem;
   background-color: #{'rgb(var(--color-bg-secondary))'};
   border-radius: 0.25rem;
-
+  grid-area: tags;
   padding: 0.5rem;
 }
 

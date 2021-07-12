@@ -5,7 +5,8 @@ const FetchedSearchProvider = (props) => {
   const [animeValues, setAnimeValues] = useState({})
 
   const [searchedAnime, setSearchedAnime] = useState([])
-  const [searchedAnimePage, setSearchedAnimePage] = useState(1)
+  const [searchedAnimeCurrPage, setSearchedAnimeCurrPage] = useState(1)
+  const [searchedAnimePageInfo, setSearchedAnimePageInfo] = useState({ currentPage: 1 })
 
   const FetchedSearchState = {
     animeValues: animeValues,
@@ -13,8 +14,10 @@ const FetchedSearchProvider = (props) => {
 
     searchedAnime: searchedAnime,
     setSearchedAnime: setSearchedAnime,
-    searchedAnimePage: searchedAnimePage,
-    setSearchedAnimePage: setSearchedAnimePage,
+    searchedAnimeCurrPage: searchedAnimeCurrPage,
+    setSearchedAnimeCurrPage: setSearchedAnimeCurrPage,
+    searchedAnimePageInfo: searchedAnimePageInfo,
+    setSearchedAnimePageInfo: setSearchedAnimePageInfo,
   }
 
   return <FetchedSearchContext.Provider value={FetchedSearchState}>{props.children}</FetchedSearchContext.Provider>

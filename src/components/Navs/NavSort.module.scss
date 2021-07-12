@@ -1,11 +1,13 @@
 .container {
-  margin-left: 1rem;
+  margin-left: 2rem;
   background-color: #{'rgb(var(--color-bg-secondary))'};
   border-radius: 0.25rem;
   padding: 0.5rem 0.5rem 0.5rem 0;
   grid-column-end: -1;
   display: flex;
   align-items: center;
+
+  grid-area: sort;
 }
 
 .break {

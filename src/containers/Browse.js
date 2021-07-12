@@ -4,6 +4,7 @@ import { useHistory } from 'react-router-dom'
 // Import Contexts
 import FetchedSearchContext from '../context/FetchedSearchContext'
 // Import Custom Components
+import BlockAnime from '../components/Blocks/BlockAnime'
 import NavFilters from '../components/Navs/NavFilters'
 import NavTags from '../components/Navs/NavTags'
 import NavSort from '../components/Navs/NavSort'
@@ -23,8 +24,8 @@ const Browse = () => {
   // Getting State for Filter Values
   const { animeValues, setAnimeValues } = { ...fetchedSearchContext }
   // Getting State for Searched Anime
-  const { searchedAnime, searchedAnimePage, setSearchedAnime, setSearchedAnimePage } = { ...fetchedSearchContext }
-
+  const { searchedAnime, searchedAnimeCurrPage, searchedAnimePageInfo, setSearchedAnime, setSearchedAnimeCurrPage, setSearchedAnimePageInfo } = { ...fetchedSearchContext }
+  const { currentPage, hasNextPage } = { ...searchedAnimePageInfo }
   // Effect that updates Filter Values when location and current anime values dont match
   useEffect(() => {
     const location = decodeURIComponent(history.location.search)
@@ -33,12 +34,17 @@ const Browse = () => {
     }
   })
 
+  useEffect(() => {
+    if (currentPage === 1) {
+      window.scrollTo(0, 0)
+    }
+  }, [currentPage])
+
   // Fetch Search Anime
   useEffect(() => {
     const identifier = setTimeout(() => {
-      console.log('here')
       const paramsSearchedAnime = {
-        page: searchedAnimePage,
+        page: searchedAnimeCurrPage,
         perPage: 50,
         type: 'ANIME',
         sort: animeValues?.sort && animeValues.sort[0],
@@ -54,35 +60,45 @@ const Browse = () => {
         hentai: animeValues?.hentai && animeValues.hentai[0],
       }
 
-      fetchSearchedPage(paramsSearchedAnime).then((data) => {
-        setSearchedAnime(data)
-      })
+      if (searchedAnimeCurrPage === 1)
+        fetchSearchedPage(paramsSearchedAnime).then((data) => {
+          setSearchedAnime(data.media)
+          setSearchedAnimePageInfo(data.pageInfo)
+        })
+      else {
+        if (currentPage !== searchedAnimeCurrPage) {
+          fetchSearchedPage(paramsSearchedAnime).then((data) => {
+            setSearchedAnime((prevData) => [...prevData, ...data.media])
+            setSearchedAnimePageInfo(data.pageInfo)
+          })
+        }
+      }
     }, 600)
 
     return () => {
       clearTimeout(identifier)
     }
-  }, [animeValues, searchedAnimePage, setSearchedAnime, setSearchedAnimePage])
+  }, [animeValues, currentPage, searchedAnimeCurrPage, setSearchedAnime, setSearchedAnimeCurrPage, setSearchedAnimePageInfo])
 
   // Handler to update Filter Values and change search query location onChange trigger
   const onChangeHandler = useCallback(
     (newValues) => {
       const location = history.location.search
       const newQueryString = getQueryString(newValues)
-      setSearchedAnimePage(1)
+      setSearchedAnimeCurrPage(1)
       setAnimeValues(newValues)
       !location && history.push({ pathname: '/Search', search: newQueryString })
       location && history.replace({ pathname: '/Search', search: newQueryString })
     },
-    [history, setAnimeValues, setSearchedAnimePage]
+    [history, setAnimeValues, setSearchedAnimeCurrPage]
   )
-
   //* Render Browse
   return (
     <main className={classes['container']}>
       <NavFilters onChange={onChangeHandler} />
       <NavTags onChange={onChangeHandler} />
       <NavSort onChange={onChangeHandler} />
+      <BlockAnime data={searchedAnime} currentPage={currentPage} hasNextPage={hasNextPage} setCurrPage={setSearchedAnimeCurrPage} />
     </main>
   )
 }

@@ -26,7 +26,7 @@ const NavFilterRange = (
   // State to store the current range values
   const [values, setValues] = useState([defaultValues ? Number(defaultValues[0]) : min, defaultValues ? Number(defaultValues[1]) : max])
   // State to store the current range offsets
-  const [offsets, setOffsets] = useState([defaultValues ? (100 / (max - min)) * (defaultValues[0] - min) : 0, defaultValues ? (100 / (max - min)) * (defaultValues[1] - min) : 100])
+  const [offsets, setOffsets] = useState([defaultValues ? (100 / (max - min)) * (Number(defaultValues[0]) - min) : 0, defaultValues ? (100 / (max - min)) * (Number(defaultValues[1]) - min) : 100])
   // Destructuring isListening
   const { state, origin, side } = { ...isListening }
   // Costum Hook to check is isMount or Rerender
@@ -40,7 +40,7 @@ const NavFilterRange = (
     if (Array.isArray(defaultValues) && JSON.stringify(defaultValues) !== JSON.stringify(values)) {
       setIsEnabled(true)
       setValues([Number(defaultValues[0]), Number(defaultValues[1])])
-      setOffsets([(100 / (max - min)) * (defaultValues[0] - min), 100], (100 / (max - min)) * (defaultValues[1] - min))
+      setOffsets([(100 / (max - min)) * (Number(defaultValues[0]) - min), (100 / (max - min)) * (Number(defaultValues[1]) - min)])
     } else if (!Array.isArray(defaultValues)) {
       setIsEnabled(false)
       setValues([min, max])

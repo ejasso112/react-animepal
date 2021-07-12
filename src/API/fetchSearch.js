@@ -1,8 +1,12 @@
 const fetchSearchedPage = async (params) => {
   const query = `
-    query ($page: Int, $perPage: Int, $type: MediaType, $search: String, $sort: [MediaSort], $genreIn: [String], $seasonYear: Int, $season: MediaSeason, $formatIn: [MediaFormat], $status: MediaStatus, $startDateGreater: FuzzyDateInt, $endDateLesser: FuzzyDateInt, $episodeGreater: Int, $episodeLesser: Int, $durationGreater: Int, $durationLesser: Int, $isAdult: Boolean) {
+    query ($page: Int, $perPage: Int, $type: MediaType, $search: String, $sort: [MediaSort], $genreIn: [String], $genreNotIn: [String] $seasonYear: Int, $season: MediaSeason, $formatIn: [MediaFormat], $status: MediaStatus, $startDateGreater: FuzzyDateInt, $startDateLesser: FuzzyDateInt, $episodeGreater: Int, $episodeLesser: Int, $durationGreater: Int, $durationLesser: Int, $isAdult: Boolean) {
       Page(page: $page, perPage: $perPage) {
-        media(type: $type, search: $search, sort: $sort, genre_in: $genreIn, seasonYear: $seasonYear, season: $season, format_in: $formatIn, status: $status, startDate_greater: $startDateGreater, endDate_lesser: $endDateLesser, episodes_greater: $episodeGreater, episodes_lesser: $episodeLesser, duration_greater: $durationGreater, duration_lesser: $durationLesser, isAdult: $isAdult) {
+        pageInfo {
+          currentPage
+          hasNextPage
+        }
+        media(type: $type, search: $search, sort: $sort, genre_in: $genreIn, genre_not_in: $genreNotIn, seasonYear: $seasonYear, season: $season, format_in: $formatIn, status: $status, startDate_greater: $startDateGreater, startDate_lesser: $startDateLesser, episodes_greater: $episodeGreater, episodes_lesser: $episodeLesser, duration_greater: $durationGreater, duration_lesser: $durationLesser, isAdult: $isAdult) {
           id
           description
           popularity
@@ -44,12 +48,13 @@ const fetchSearchedPage = async (params) => {
     season: params.season && seasons.find((item) => item.option === params.season).value,
     formatIn: params.format && params.format.map((format) => formats.find((item) => item.option === format).value),
     status: params.status && status.find((item) => item.option === params.status).value,
-    startDateGreater: params.yearRange && params.yearRange[0],
-    endDateLesser: params.yearRange && params.yearRange[1],
+    startDateGreater: params.yearRange && params.yearRange[0] + '0000',
+    startDateLesser: params.yearRange && params.yearRange[1] + '0000',
     episodeGreater: params.episodeRange && params.episodeRange[0],
     episodeLesser: params.episodeRange && params.episodeRange[1],
     durationGreater: params.durationRange && params.durationRange[0],
     durationLesser: params.durationRange && params.durationRange[1],
+    genreNotIn: !params.hentai && ['Hentai'],
     isAdult: params.hentai,
   }
 
@@ -74,7 +79,7 @@ const fetchSearchedPage = async (params) => {
     throw new Error(`HTTP error! status: ${response.status}`)
   } else {
     const data = await response.json()
-    return data.data.Page.media
+    return data.data.Page
   }
 }
 

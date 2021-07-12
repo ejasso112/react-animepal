@@ -5,9 +5,11 @@ const FetchedSearchContext = createContext({
   setAnimeValues: (values = {}) => {},
 
   searchedAnime: [],
-  searchedAnimePage: 1,
+  searchedAnimeCurrPage: 1,
+  searchedAnimePageInfo: {},
   setSearchedAnime: (list) => {},
-  setSearchedAnimePage: (page) => {},
+  setSearchedAnimeCurrPage: (page) => {},
+  setSearchedAnimePageInfo: (pageInfo) => {},
 })
 
 export default FetchedSearchContext

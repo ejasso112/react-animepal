@@ -10,11 +10,15 @@
 }
 
 .card {
-  display: grid;
   margin: 0 0.75rem;
+  display: grid;
   cursor: pointer;
   transition: transform 250ms ease-out;
   grid-template-rows: min-content auto;
+
+  &--alt {
+    margin: 0;
+  }
 
   &:hover,
   &:focus {

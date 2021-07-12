@@ -14,10 +14,11 @@ const CardAnime = (
     color: '', // --------------------------------------------------------- hex color
     totalItems: NaN, // --------------------------------------------------- total number of Cards in Carousel
     isCurr: true, // ------------------------------------------------------ is item in current page
+    isAlt: false, // ------------------------------------------------------ is item in alt style
   }
 ) => {
   // Destructuring Props
-  const { id, type, title, coverImage, totalItems, isCurr } = { ...props }
+  const { id, type, title, coverImage, totalItems, isCurr, isAlt } = { ...props }
   // Destructuring title
   const { english, native, romji, userPreferred } = { ...title }
   // Destructuring coverImage
@@ -41,12 +42,13 @@ const CardAnime = (
 
   // Variable to store inline style object for title when active
   const activeStyle = isActive ? { color: color ? color : '#2c76a0' } : {}
+  const altClass = isAlt ? classes['card--alt'] : ''
 
   //* Render when Card is not part of the current page
   if (!isCurr) {
     return (
       <div className={`${classes['container']} ${classes[`items--${totalItems}`]} ${classes['inactive']}`}>
-        <div className={classes['card']}>
+        <div className={`${classes['card']} ${altClass}`}>
           <div className={classes['img']}>
             <img className={classes['img__content']} src={animeImg} alt={animeTitle} />
           </div>
@@ -58,7 +60,7 @@ const CardAnime = (
   //* Render Card
   return (
     <div className={`${classes['container']} ${classes[`items--${totalItems}`]}`} onMouseEnter={onMouseEnterHandler} onMouseLeave={onMouseLeaveHandler} onFocus={onMouseEnterHandler} onBlur={onMouseLeaveHandler}>
-      <Link to={`/${type}/${id}/${animeTitle.replaceAll(' ', '_')}`} className={classes['card']}>
+      <Link to={`/${type}/${id}/${animeTitle.replaceAll(' ', '_')}`} className={`${classes['card']} ${altClass}`}>
         <div className={classes['img']}>
           <img className={classes['img__content']} src={animeImg} alt={animeTitle} />
         </div>
