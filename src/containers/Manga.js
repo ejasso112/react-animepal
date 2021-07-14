@@ -63,9 +63,9 @@ const Manga = () => {
       const paramsPopularManga = {
         page: 1,
         perPage: 50,
-        status: 'RELEASING',
         type: 'MANGA',
         sort: 'POPULARITY_DESC',
+        status: 'RELEASING',
       }
 
       fetchAnimePage(paramsPopularManga).then((data) => {
@@ -80,9 +80,9 @@ const Manga = () => {
       const paramsUpcomingManga = {
         page: 1,
         perPage: 50,
-        status: 'NOT_YET_RELEASED',
         type: 'MANGA',
         sort: 'POPULARITY_DESC',
+        status: 'NOT_YET_RELEASED',
       }
 
       fetchAnimePage(paramsUpcomingManga).then((data) => {
@@ -109,9 +109,9 @@ const Manga = () => {
 
   // Create Props Object for Trending Manga
   const trendingMangaProps = {
-    type: 'MANGA',
-    sort: 'TRENDING_DESC',
-    title: 'Trending',
+    heading: 'Trending',
+    to: { pathname: 'Search/Manga', search: '?sort=Trending' },
+    type: 'Manga',
     data: trendingManga,
     perPage: perPage,
     currPage: trendingMangaPage,
@@ -121,9 +121,9 @@ const Manga = () => {
 
   // Create Props Object for Popular This Season Manga
   const popularThisSeasonMangaProps = {
-    type: 'MANGA',
-    sort: 'POPULARITY_DESC',
-    title: 'Popular This Season',
+    heading: 'Popular This Season',
+    to: { pathname: 'Search/Manga', search: '?sort=Popularity&status=Releasing' },
+    type: 'Manga',
     data: popularManga,
     perPage: perPage,
     currPage: popularMangaPage,
@@ -133,9 +133,9 @@ const Manga = () => {
 
   // Create Props Object for Upcoming Manga
   const topUpcomingMangaProps = {
-    type: 'MANGA',
-    sort: 'POPULARITY_DESC',
-    title: 'Top Upcoming',
+    heading: 'Top Upcoming',
+    to: { pathname: 'Search/Manga', search: '?sort=Popularity&status=Not Yet Released' },
+    type: 'Manga',
     data: upcomingManga,
     perPage: perPage,
     currPage: upcomingMangaPage,
@@ -145,9 +145,9 @@ const Manga = () => {
 
   // Create Props Object for All Time Popular Manga
   const allTimePopularMangaProps = {
-    type: 'MANGA',
-    sort: 'POPULARITY_DESC',
-    title: 'All-Time Popular',
+    heading: 'All-Time Popular',
+    to: { pathname: 'Search/Manga', search: '?sort=Popularity' },
+    type: 'Manga',
     data: topManga,
     perPage: perPage,
     currPage: topMangaPage,

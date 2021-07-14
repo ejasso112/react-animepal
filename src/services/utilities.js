@@ -35,10 +35,10 @@ const getDate = (date = { year: NaN, month: NaN, day: NaN }) => {
 const getCurrSeason = () => {
   const currentDate = new Date()
   const month = currentDate.getMonth() + 1
-  if (month === 12 || month === 1 || month === 2) return 'WINTER'
-  if (month === 3 || month === 4 || month === 5) return 'SPRING'
-  if (month === 6 || month === 7 || month === 8) return 'SUMMER'
-  return 'FALL'
+  if (month === 12 || month === 1 || month === 2) return 'Winter'
+  if (month === 3 || month === 4 || month === 5) return 'Spring'
+  if (month === 6 || month === 7 || month === 8) return 'Summer'
+  return 'Fall'
 }
 
 // Return Next Season String
@@ -46,10 +46,10 @@ const getNextSeason = () => {
   const currentDate = new Date()
   const month = currentDate.getMonth() + 1
 
-  if (month === 12 || month === 1 || month === 2) return 'SPRING'
-  if (month === 3 || month === 4 || month === 5) return 'SUMMER'
-  if (month === 6 || month === 7 || month === 8) return 'FALL'
-  return 'WINTER'
+  if (month === 12 || month === 1 || month === 2) return 'Spring'
+  if (month === 3 || month === 4 || month === 5) return 'Summer'
+  if (month === 6 || month === 7 || month === 8) return 'Fall'
+  return 'Winter'
 }
 
 // Return Parsed String with Season and Year
@@ -138,8 +138,8 @@ const getQueryString = (values) => {
     queryObj = { ...queryObj, [key]: value.map((value) => `${key}=${value}`).join('&') }
   }
 
-  const { search, sort, genres, year, season, format, status, yearRange, episodeRange, durationRange, hentai } = { ...queryObj }
-  const queryString = [search, sort, genres, year, season, format, status, yearRange, episodeRange, durationRange, hentai].filter((value) => value).join('&')
+  const { search, type, sort, genres, year, season, format, status, yearRange, episodeRange, durationRange, hentai } = { ...queryObj }
+  const queryString = [search, type, sort, genres, year, season, format, status, yearRange, episodeRange, durationRange, hentai].filter((value) => value).join('&')
 
   return queryString ? `?${queryString}` : queryString
 }

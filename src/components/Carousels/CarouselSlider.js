@@ -12,9 +12,9 @@ import classes from './CarouselSlider.module.scss'
 //* Carousel Slider Component
 const CarouselSlider = (
   props = {
+    heading: '', // -------------------------------- title of Carousel
+    to: {}, // ----------------------------------- react router to object
     type: '', // --------------------------------- anime/manga
-    sort: '', // --------------------------------- trending_desc/popular_desc/...
-    title: '', // -------------------------------- title of Carousel
     data: [], // --------------------------------- array of Caorusel data
     perPage: NaN, // ----------------------------- items per Carousel page
     currPage: NaN, // ---------------------------- active page
@@ -23,7 +23,7 @@ const CarouselSlider = (
   }
 ) => {
   // Destructuring Props
-  const { type, sort, title, data, perPage, currPage, setCurrPage, totalPages } = { ...props }
+  const { heading, to, type, data, perPage, currPage, setCurrPage, totalPages } = { ...props }
 
   // State to keep track if carousel transition is true or false
   const [isSliding, setIsSliding] = useState(false)
@@ -74,7 +74,7 @@ const CarouselSlider = (
   return (
     <div className={classes['container']}>
       <div className={classes['heading']}>
-        <CarouselLinkHeading heading={title} message='View All' to={{ pathname: '/search', search: `?type=${type}&sort=${sort}` }} />
+        <CarouselLinkHeading heading={heading} message='View All' to={to} />
         <CarouselButtons className={classes['heading__buttons']} totalPages={totalPages} currPage={currPage} setCurrPage={setCurrPage} />
       </div>
 

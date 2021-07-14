@@ -29,7 +29,9 @@ const Browse = () => {
   // Effect that updates Filter Values when location and current anime values dont match
   useEffect(() => {
     const location = decodeURIComponent(history.location.search)
+
     if (location !== getQueryString(animeValues)) {
+      console.log(getQueryObject(location))
       setAnimeValues(getQueryObject(location))
     }
   })
@@ -46,7 +48,7 @@ const Browse = () => {
       const paramsSearchedAnime = {
         page: searchedAnimeCurrPage,
         perPage: 50,
-        type: 'ANIME',
+        type: (animeValues?.type && animeValues.type[0].toUpperCase()) || 'ANIME',
         sort: animeValues?.sort && animeValues.sort[0],
         search: animeValues?.search && animeValues.search[0],
         genres: animeValues?.genres,
@@ -87,8 +89,8 @@ const Browse = () => {
       const newQueryString = getQueryString(newValues)
       setSearchedAnimeCurrPage(1)
       setAnimeValues(newValues)
-      !location && history.push({ pathname: '/Search', search: newQueryString })
-      location && history.replace({ pathname: '/Search', search: newQueryString })
+      !location && history.push({ search: newQueryString })
+      location && history.replace({ search: newQueryString })
     },
     [history, setAnimeValues, setSearchedAnimeCurrPage]
   )

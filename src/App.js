@@ -23,7 +23,7 @@ const App = () => {
           <Route exact path={['/', '/home']} component={Home} />
 
           <Route
-            path='/Anime/:id/:name'
+            path='/Anime/:id'
             render={(props) => (
               <FetchedAnimeDetailsProvider>
                 <AnimeDetails {...props} />
@@ -35,7 +35,7 @@ const App = () => {
           <Route path='/Manga' component={Manga} />
 
           <Route
-            path='/Search'
+            path='/Search/Anime'
             render={(props) => (
               <FetchedSearchProvider>
                 <Browse {...props} />

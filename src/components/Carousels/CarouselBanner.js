@@ -12,11 +12,9 @@ import classes from './CarouselBanner.module.scss'
 //* Carousel Banner Component
 const CarouselBanner = (
   props = {
-    type: '', // ------------------------------ anime/manga
-    sort: '', // ------------------------------ trending_desc/popular_desc/...
     heading: '', // --------------------------- heading of Banner
-    year: NaN, // ----------------------------- yyyy
-    season: '', // ---------------------------- spring/summer/fall/winter
+    to: {}, // -------------------------------- react router to object
+    type: '', // ------------------------------ anime/manga
     data: [], // ------------------------------ page of Banner Data
     currPage: NaN, // ------------------------- active page
     setCurrPage: (newCurrPage = NaN) => {}, //- changes currPage to newCurrPage
@@ -25,7 +23,7 @@ const CarouselBanner = (
   }
 ) => {
   // Destructuring Props
-  const { type, sort, heading, year, season, data, currPage, setCurrPage, totalPages, interval } = { ...props }
+  const { heading, to, type, data, currPage, setCurrPage, totalPages, interval } = { ...props }
 
   // Variable with current page data from the data array
   const currItemData = data[currPage - 1]
@@ -58,7 +56,7 @@ const CarouselBanner = (
   const carouselLinkHeadingProps = {
     heading: heading,
     message: 'Veiw All',
-    to: { pathname: '/search', search: `?type=${type}&year=${year}&season=${season}&sort=${sort}` },
+    to: to,
   }
 
   // Props Object for Carousel Buttons

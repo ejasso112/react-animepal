@@ -69,7 +69,7 @@ const Anime = () => {
         perPage: 50,
         type: 'ANIME',
         sort: 'POPULARITY_DESC',
-        season: currSeason,
+        season: currSeason.toUpperCase(),
         seasonYear: currYear,
       }
 
@@ -87,7 +87,7 @@ const Anime = () => {
         perPage: 50,
         type: 'ANIME',
         sort: 'POPULARITY_DESC',
-        season: nextSeason,
+        season: nextSeason.toUpperCase(),
         seasonYear: currYear,
       }
 
@@ -115,9 +115,9 @@ const Anime = () => {
 
   // Create Props Object for Trending Anime
   const trendingAnimeProps = {
-    type: 'ANIME',
-    sort: 'TRENDING_DESC',
-    title: 'Trending',
+    heading: 'Trending',
+    to: { pathname: '/Search/Anime', search: '?sort=Trending' },
+    type: 'Anime',
     data: trendingAnime,
     perPage: perPage,
     currPage: trendingAnimePage,
@@ -127,9 +127,9 @@ const Anime = () => {
 
   // Create Props Object for Popular This Season Anime
   const popularThisSeasonAnimeProps = {
-    type: 'ANIME',
-    sort: 'POPULARITY_DESC',
-    title: 'Popular This Season',
+    heading: 'Popular This Season',
+    to: { pathname: '/Search/Anime', search: `?sort=Popularity&year=${currYear}&season=${currSeason}` },
+    type: 'Anime',
     data: popularAnime,
     perPage: perPage,
     currPage: popularAnimePage,
@@ -139,9 +139,9 @@ const Anime = () => {
 
   // Create Props Object for Upcoming Anime
   const topUpcomingAnimeProps = {
-    type: 'ANIME',
-    sort: 'POPULARITY_DESC',
-    title: 'Top Upcoming',
+    heading: 'Top Upcoming',
+    to: { pathname: '/Search/Anime', search: `?sort=Popularity&year=${currYear}&season=${nextSeason}` },
+    type: 'Anime',
     data: upcomingAnime,
     perPage: perPage,
     currPage: upcomingAnimePage,
@@ -151,9 +151,9 @@ const Anime = () => {
 
   // Create Props Object for All Time Popular Anime
   const allTimePopularAnimeProps = {
-    type: 'ANIME',
-    sort: 'POPULARITY_DESC',
-    title: 'All-Time Popular',
+    heading: 'All-Time Popular',
+    to: { pathname: '/Search/Anime', search: '?sort=Popularity' },
+    type: 'Anime',
     data: topAnime,
     perPage: perPage,
     currPage: topAnimePage,
