@@ -1,5 +1,6 @@
 // Import React Dependencies
 import { useContext, useEffect } from 'react'
+import { useHistory } from 'react-router-dom'
 // Import Contexts
 import FetchedAnimeDetailsContext from '../context/FetchedAnimeDetailsContext'
 // Import Custom Components
@@ -9,12 +10,14 @@ import SidebarAnime from '../components/Sidebars/SidebarAnime'
 import Overview from './AnimeDetails/Overview'
 // Import API Fetch
 import fetchAnimeDetails from '../API/fetchAnimeDetails'
+import { parseAnimeLink } from '../services/utilities'
 
 //* Anime Details Component
 const AnimeDetails = (props) => {
   // Deconstruction Props
   const id = props.match.params.id
-
+  const history = useHistory()
+  const location = history.location.pathname
   // Getting Context for Anime Details
   const fetchedAnimeDetailsContext = useContext(FetchedAnimeDetailsContext)
   // Getting State for Anime Details
@@ -27,13 +30,25 @@ const AnimeDetails = (props) => {
         id: id,
       }
 
-      fetchAnimeDetails(paramsAnimeDetails).then((data) => {
+      return fetchAnimeDetails(paramsAnimeDetails).then((data) => {
         setAnimeDetails(data)
       })
     }
+
+    const { english, romji, native, userPreferred } = { ...animeDetails.title }
+    const animeTitle = english ? english : userPreferred ? userPreferred : romji ? romji : native
+    history.replace(`${parseAnimeLink(location)}/${animeTitle.replaceAll(' ', '_')}`)
+    return () => {}
+    // eslint-disable-next-line
   }, [id, animeDetails, setAnimeDetails])
 
+  // TODO Render: Loading Banner
+  if (animeDetails.length === 0) {
+    return <div>Is Loading</div>
+  }
+
   console.log(animeDetails)
+
   // Create Props Object for Banner
   const bannerProps = {
     id: animeDetails?.id,
@@ -52,7 +67,7 @@ const AnimeDetails = (props) => {
   // Create Props Object for Sidebar
   const sidebarProps = {
     id: animeDetails?.id,
-
+    type: animeDetails?.type,
     averageScore: animeDetails?.averageScore,
     rankings: animeDetails?.rankings,
     popularity: animeDetails?.popularity,

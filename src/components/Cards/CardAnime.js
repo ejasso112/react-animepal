@@ -60,7 +60,7 @@ const CardAnime = (
   //* Render Card
   return (
     <div className={`${classes['container']} ${classes[`items--${totalItems}`]}`} onMouseEnter={onMouseEnterHandler} onMouseLeave={onMouseLeaveHandler} onFocus={onMouseEnterHandler} onBlur={onMouseLeaveHandler}>
-      <Link to={`/${type}/${id}/${animeTitle.replaceAll(' ', '_')}`} className={`${classes['card']} ${altClass}`}>
+      <Link to={`/${type}/${id}`} className={`${classes['card']} ${altClass}`}>
         <div className={classes['img']}>
           <img className={classes['img__content']} src={animeImg} alt={animeTitle} />
         </div>

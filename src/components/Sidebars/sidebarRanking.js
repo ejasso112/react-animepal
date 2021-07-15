@@ -43,7 +43,7 @@ const SidebarRanking = (
 
   //* Render Link
   return (
-    <Link className={`${classes['ranking']} ${classes['ranking--link']}`} to={{ pathname: '/search', search: `?type=${type}&sort=${sort}` }}>
+    <Link className={`${classes['ranking']} ${classes['ranking--link']}`} to={{ pathname: `/search/${type}`, search: `?sort=${sort}` }}>
       {rankingContent}
     </Link>
   )

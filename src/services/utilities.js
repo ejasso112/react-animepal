@@ -73,7 +73,7 @@ const getStudios = (studios) => {
   const newProducers = formattedStudios
     .filter((studio) => !studio.isMain)
     .map((studio) => {
-      return { pathname: `/Studio/${studio.id}/${studio.name.replaceAll(' ', '_')}`, name: studio.name }
+      return { pathname: `/Studio/${studio.id}`, name: studio.name }
     })
 
   return [newStudios, newProducers]
@@ -153,4 +153,11 @@ const mergeClasses = (componentClass = {}, SharedClass = {}) => {
   return { ...SharedClass, ...classObj }
 }
 
-export { getParsedHTML, getCurrYear, getDate, getCurrSeason, getNextSeason, getFullSeason, getStudios, getEpDuration, getNextEpAiringTime, getQueryObject, mergeClasses, getQueryArray, getQueryString }
+const parseAnimeLink = (path) => {
+  const pathArr = path.split('/')
+  if (!isNaN(path[path.length - 1])) return path
+
+  pathArr.pop()
+  return pathArr.join('/')
+}
+export { getParsedHTML, getCurrYear, getDate, getCurrSeason, getNextSeason, getFullSeason, getStudios, getEpDuration, getNextEpAiringTime, getQueryObject, mergeClasses, getQueryArray, getQueryString, parseAnimeLink }

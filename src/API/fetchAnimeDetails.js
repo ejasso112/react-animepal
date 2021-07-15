@@ -7,6 +7,7 @@ const fetchAnimeDetails = async (params) => {
         # ----------------------
         id
         idMal
+        type
         bannerImage
         coverImage {
           extraLarge

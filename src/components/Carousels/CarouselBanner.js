@@ -79,7 +79,7 @@ const CarouselBanner = (
           <CarouselLinkHeading className={classes['content__heading']} {...carouselLinkHeadingProps} />
           <h3 className={classes['content__title']}>{animeTitle}</h3>
           <p className={classes['content__description']}>{getParsedHTML(description)}</p>
-          <Link className={classes['content__link']} to={{ pathname: `/${type}/${id}/${animeTitle}`.replaceAll(' ', '_') }}>
+          <Link className={classes['content__link']} to={{ pathname: `/${type}/${id}` }}>
             View&ensp;▶
           </Link>
         </div>
